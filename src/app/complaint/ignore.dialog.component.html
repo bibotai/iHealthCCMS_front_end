@@ -1,0 +1,12 @@
+<div class="dialog-content" style="width: 600px;height: 100px">
+  <form>
+    <md-input-container class="input-full-width" style="width: 100%">
+      <input #res md-input placeholder="请输入理由" (blur)="reason=res.value" name="reason">
+    </md-input-container>
+    <div class="input-full-width" style="width: 100%">
+      <div class="dialog-send-button" style="float: right;">
+        <button md-raised-button md-no-ink (click)="ignore()" class="md-primary">忽略</button>
+      </div>
+    </div>
+  </form>
+</div>

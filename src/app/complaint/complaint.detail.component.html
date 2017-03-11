@@ -1,0 +1,48 @@
+<div class="dialog-content">
+  <div clsss="container">
+    <div class="content">
+      <div class="box">
+        <div class="title">应用信息</div>
+        <div class="inner-list">
+          <ol>
+            <li>应用名：{{complaint==null?'':complaint.appName}}</li>
+            <li>版本：{{complaint==null?'':complaint.appVersion}}</li>
+            <li>来源：{{complaint==null?'':complaint.orgin}}</li>
+          </ol>
+        </div>
+      </div>
+      <div class="box">
+        <div class="title">评论信息</div>
+        <div class="inner-list">
+          <ol>
+            <li>所属地区：{{complaint?.lang}}</li>
+            <li>评论日期：{{complaint?.rewDate}}</li>
+            <li>评星：{{complaint?.content.star}}</li>
+          </ol>
+          <div class="inner-content">
+            <p>评论主题：{{complaint?.content.rewTitle}}</p>
+            <p>评论内容：{{complaint?.content.rewContent}}</p>
+            <p>英文翻译：{{complaint?.content.tranContent}}</p>
+            <p>中文翻译：{{complaint?.content.tranContentZh}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="title">redmine信息</div>
+        <div class="inner-list">
+          <ol>
+            <li>状态：{{complaint?.redmineMsg?.status.name}}</li>
+            <li>开始时间：{{complaint?.redmineMsg?.created_on}}</li>
+            <li>优先级：{{complaint?.redmineMsg?.priority.name}}</li>
+            <li>计划完成时间：</li>
+            <li>指派给：{{complaint?.redmineMsg?.assigned_to.name}}</li>
+            <li>%完成：{{complaint?.redmineMsg?.done_ratio}}</li>
+            <li>类别：</li>
+            <li>耗时：</li>
+            <li>目标版本：</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

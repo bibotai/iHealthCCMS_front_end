@@ -1,0 +1,48 @@
+ * {
+   padding: 0;
+   margin: 0;
+   font-size: 16px;
+   color: #333333;
+ }
+ 
+ .container {
+   width: 100%;
+   height: 100%;
+   margin: 0 auto;
+   padding-top: 20px;
+ }
+ 
+ .box {
+   width: 90%;
+   margin: 5px auto;
+   padding: 13px
+ }
+ 
+ ol {
+   list-style: none;
+   padding: 10px 0;
+ }
+ 
+ .inner-list ol li {
+   display: block;
+   float: left;
+   width: 30%;
+   padding: 5px 0;
+ }
+ 
+ .title {
+   font-size: 18px;
+   padding: 7px 3px;
+   background-color: #3f51b5;
+   color: #ffffff;
+ }
+ 
+ .inner-content {
+   clear: both;
+   padding-top: 5px;
+ }
+ 
+ .inner-content p {
+   line-height: 1.4em;
+   padding-top: 8px;
+ }

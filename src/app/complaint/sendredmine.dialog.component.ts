@@ -1,0 +1,102 @@
+import {Component, OnInit, Optional} from '@angular/core';
+import {MdDialog, MdDialogRef} from '@angular/material';
+import {RedmineService} from '../services/redmine.service';
+import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
+import 'rxjs/add/operator/toPromise';
+
+@Component({selector: 'sendredminedialog', templateUrl: './sendredmine.dialog.component.html', styleUrls: ['./sendredmine.dialog.component.css']})
+
+export class SendRedmineDialog implements OnInit {
+  constructor(@Optional()public dialog : MdDialog, public dialogRef : MdDialogRef < SendRedmineDialog >, private redmineService : RedmineService, private formbuilder : FormBuilder) {
+
+    this.sendRedmineForm = this
+      .formbuilder
+      .group({
+        issueTags: '',
+        subject: '',
+        description: '',
+        receiver: '',
+        department: '',
+        productModel: '',
+        region: '',
+        version: '',
+        layer: ''
+      });
+
+  };
+
+  issueTags : Object;
+  receivers : Object;
+  departments : Object;
+  layers : Object;
+  data : any;
+  sendRedmineForm;
+  ngOnInit() : void {
+    this.issueTags = this
+      .redmineService
+      .getRedmineEnumsArraybyName('issueTags');
+    this.receivers = this
+      .redmineService
+      .getRedmineKeybyName("receiver");
+    this.departments = this
+      .redmineService
+      .getRedmineKeybyName("department");
+    this.layers = this
+      .redmineService
+      .getRedmineKeybyName("layer");
+    this.data = this.dialogRef.componentInstance.data;
+    console.log(this.data);
+    //init
+    let src = '';
+    src = '';
+    if (this.data.v == "Itunes Connect") {
+      src = 'Apple Store';
+    } else if (this.data.orgin == "googlePlay") {
+      src = 'Google Play';
+    } else {
+      src = 'FDA';
+    }
+    this.sendRedmineForm = this
+      .formbuilder
+      .group({
+        issueTags: 9,
+        subject: this.data.content.rewTitle,
+        description: this.data.content.tranContentZh
+          ? this.data.content.tranContentZh
+          : this.data.content.rewContent,
+        receiver: this.data.appName == 'MyVitals'
+          ? '李澄'
+          : '包磊',
+        department: this.data.appName == 'MyVitals'
+          ? 'iHealth MyVitals App'
+          : 'iHealth iGluco App',
+        productModel: '无',
+        region: this.data.lang
+          ? this.data.lang
+          : '',
+        version: this.data.appVersion
+          ? this.data.appVersion
+          : '',
+        layer: 'app',
+        rewDate: this.data.rewDate,
+
+        orgin: src,
+        orginId: this.data.orginId,
+        id: this.data._id
+      })
+  }
+
+  sendRedmine() : void {
+    this
+      .redmineService
+      .sendToRedmine(this.sendRedmineForm.value)
+      .then(data => {
+        console.log(data);
+        this
+          .dialogRef
+          .close(data);
+      });
+
+  }
+
+}

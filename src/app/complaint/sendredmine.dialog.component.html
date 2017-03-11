@@ -1,0 +1,57 @@
+<div class="dialog-content">
+  <form [formGroup]="sendRedmineForm">
+    <div class="input-full-width">
+      <md-select placeholder="跟踪" formControlName="issueTags">
+        <md-option *ngFor="let issueTag of issueTags" [value]="issueTag.value">
+          {{issueTag.viewValue}}
+        </md-option>
+      </md-select>
+    </div>
+    <md-input-container class="input-full-width">
+      <input md-input placeholder="主题" formControlName="subject">
+    </md-input-container>
+    <md-input-container class="input-full-width">
+      <textarea md-input placeholder="描述" formControlName="description"></textarea>
+    </md-input-container>
+    <div class="input-full-width">
+      <md-select class="input-half-width" placeholder="指派给" formControlName="receiver">
+        <md-option *ngFor="let receiver of receivers" [value]="receiver.value">
+          {{receiver.viewValue}}
+        </md-option>
+      </md-select>
+      <md-select class="input-half-width" placeholder="客诉处理部门" formControlName="department">
+        <md-option *ngFor="let department of departments" [value]="department.value">
+          {{department.viewValue}}
+        </md-option>
+      </md-select>
+    </div>
+    <div class="input-full-width">
+      <md-input-container class="input-half-width">
+        <input formControlName="productModel" md-input placeholder="客诉产品型号" text="无">
+      </md-input-container>
+      <md-input-container class="input-half-width">
+        <input formControlName="region" md-input placeholder="地区">
+      </md-input-container>
+    </div>
+    <div class="input-full-width">
+      <md-input-container class="input-half-width">
+        <input formControlName="version" md-input placeholder="版本">
+      </md-input-container>
+    </div>
+    <div class="input-full-width">
+      <md-select class="input-full-width" placeholder="客诉处理部门" formControlName="layer">
+        <md-option *ngFor="let layer of layers" [value]="layer.value">
+          {{layer.viewValue}}
+        </md-option>
+      </md-select>
+    </div>
+  </form>
+  <div class="input-full-width">
+    <div class="dialog-send-button">
+      <button md-raised-button md-no-ink (click)="sendRedmine()" class="md-primary">发送</button>
+    </div>
+  </div>
+  <!--<pre>
+    {{sendRedmineForm.value | json}}
+  </pre>-->
+</div>

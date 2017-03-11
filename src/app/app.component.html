@@ -1,0 +1,39 @@
+<div class="app-allcontent">
+  <md-toolbar class="app-toolbar" color="primary">
+    <button class="app-icon-button" (click)="sidenav.toggle()">
+      <i class="material-icons app-toolbar-menu">menu</i>
+    </button> iHealth客诉管理系统
+    <span class="app-toolbar-filler"></span>
+    <button md-button>登录</button>
+  </md-toolbar>
+  <md-sidenav-layout class="app-sidenav-layout">
+    <div class="md-sidenav-backdrop"></div>
+    <md-sidenav class="app-sidenav" #sidenav mode="side" opened="true">
+      <div class="app-sidenav-content">
+        <ul>
+          <li>
+            <a class="nav-button" md-button routerLinkActive="active" [routerLink]="['/complaintlist','all']">全部列表</a>
+          </li>
+          <li>
+            <a class="nav-button" md-button routerLinkActive="active" [routerLink]="['/complaintlist','notprocessed']">未处理列表</a>
+          </li>
+          <li>
+            <a class=" nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','processed']">已处理列表</a>
+          </li>
+          <li>
+            <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','processing']">处理中</a>
+          </li>
+          <li>
+            <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','ignored']">已忽略</a>
+          </li>
+        </ul>
+      </div>
+    </md-sidenav>
+    <md-sidenav-container class="app-sidenav-container ">
+      <div class="app-content ">
+        <!--添加路由插座-->
+        <router-outlet></router-outlet>
+      </div>
+    </md-sidenav-container>
+  </md-sidenav-layout>
+</div>

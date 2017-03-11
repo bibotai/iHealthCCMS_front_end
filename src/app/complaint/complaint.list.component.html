@@ -1,0 +1,66 @@
+<div class="alllist-header">
+  <h1>{{title}}</h1>
+</div>
+<div class="query-container">
+  <div class="box">
+    <form [formGroup]="searchForm">
+      <div class="inner-list">
+        <ol>
+          <li>
+            <md-select class="md-select" color="primary" placeholder="来源" formControlName="orgin">
+              <md-option *ngFor="let orgin of orgins" [value]="orgin.value">
+                {{orgin.viewValue}}
+              </md-option>
+            </md-select>
+          </li>
+          <li>
+            <md-select class="md-select" color="primary" placeholder="应用" formControlName="app">
+              <md-option *ngFor="let app of apps" [value]="app.value">
+                {{app.viewValue}}
+              </md-option>
+            </md-select>
+          </li>
+          <li>来源：{{complaint==null?'':complaint.orgin}}</li>
+        </ol>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="list">
+  <ngx-datatable class="material" [columnMode]="'flex'" [loadingIndicator]="loadingIndicator" [headerHeight]="50" [footerHeight]="0"
+    [rowHeight]="auto" [rows]="complaintsDisplay">
+    <ngx-datatable-column name="编号" prop="id" [flexGrow]="1">
+      <template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="主题" prop="subject" [flexGrow]="1">
+      <template let-row="row" ngx-datatable-cell-template>
+        <a [routerLink]="['/complaintdetail', row._id]"> {{row.subject}}</a>
+      </template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="来源" prop="orgin" [flexGrow]="1">
+      <template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="状态" prop="state" [flexGrow]="1">
+      <template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="操作" prop="raw" [flexGrow]="2">
+      <template let-value="value" ngx-datatable-cell-template>
+        <button *ngIf="value.isSendShow" md-raised-button md-no-ink (click)="openRedmineDialog(value)" class="md-primary">发送到Radmine</button>
+        <button *ngIf="value.isIgnoreShow" md-raised-button md-no-ink (click)="openIgnoreDialog(value)" class="md-primary">忽略</button>
+        <button *ngIf="value.isReductionShow" md-raised-button md-no-ink (click)="reductionIgnore(value)" class="md-primary">还原</button>
+      </template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+  <div class="list-card-content">
+    <div class="list-pagebutton">
+      <button class="list-button-pre" color='primary' (click)='onPageUp()' md-mini-fab><md-icon>arrow_back</md-icon></button>
+      <button color='list-button-next' color='primary' (click)='onPageDown()' md-mini-fab><md-icon>arrow_forward</md-icon></button>
+    </div>
+  </div>
+</div>
