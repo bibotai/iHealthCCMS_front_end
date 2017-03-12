@@ -27,8 +27,17 @@
   </div>
 </div>
 <div class="list">
-  <ngx-datatable class="material" [columnMode]="'flex'" [loadingIndicator]="loadingIndicator" [headerHeight]="50" [footerHeight]="0"
-    [rowHeight]="auto" [rows]="complaintsDisplay">
+  <ngx-datatable class="material expandable" [columnMode]="'flex'" [loadingIndicator]="loadingIndicator" [headerHeight]="50"
+    [footerHeight]="0" [rowHeight]="60" [rows]="complaintsDisplay">
+    <!-- Row Detail Template -->
+    <!--<ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+      <ng-template let-row="row" ngx-datatable-row-detail-template>
+        <div style="padding-left:35px;">
+          <div><strong>详细信息</strong></div>
+          <div>{{row.raw.content.rewContent}}}</div>
+        </div>
+      </ng-template>
+    </ngx-datatable-row-detail>-->
     <ngx-datatable-column name="编号" prop="id" [flexGrow]="1">
       <template let-value="value" ngx-datatable-cell-template>
         {{value}}
@@ -44,16 +53,16 @@
         {{value}}
       </template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="状态" prop="state" [flexGrow]="1">
+    <ngx-datatable-column name="应用" prop="appname" [flexGrow]="1">
       <template let-value="value" ngx-datatable-cell-template>
         {{value}}
       </template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="操作" prop="raw" [flexGrow]="2">
+    <ngx-datatable-column name="操作" prop="raw" [flexGrow]="1">
       <template let-value="value" ngx-datatable-cell-template>
-        <button *ngIf="value.isSendShow" md-raised-button md-no-ink (click)="openRedmineDialog(value)" class="md-primary">发送到Radmine</button>
-        <button *ngIf="value.isIgnoreShow" md-raised-button md-no-ink (click)="openIgnoreDialog(value)" class="md-primary">忽略</button>
-        <button *ngIf="value.isReductionShow" md-raised-button md-no-ink (click)="reductionIgnore(value)" class="md-primary">还原</button>
+        <button *ngIf="value.isSendShow" color='primary' md-mini-fab md-no-ink (click)="openRedmineDialog(value)" class="md-primary"><md-icon>send</md-icon></button>
+        <button *ngIf="value.isIgnoreShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value)" class="md-primary"><md-icon>delete</md-icon></button>
+        <button *ngIf="value.isReductionShow" color='primary' md-mini-fab md-no-ink (click)="reductionIgnore(value)" class="md-primary"><md-icon>restore</md-icon></button>
       </template>
     </ngx-datatable-column>
   </ngx-datatable>

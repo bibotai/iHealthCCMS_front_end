@@ -6,7 +6,7 @@
     <span class="app-toolbar-filler"></span>
     <button md-button>登录</button>
   </md-toolbar>
-  <md-sidenav-layout class="app-sidenav-layout">
+  <md-sidenav-container class="app-sidenav-layout">
     <div class="md-sidenav-backdrop"></div>
     <md-sidenav class="app-sidenav" #sidenav mode="side" opened="true">
       <div class="app-sidenav-content">
@@ -29,11 +29,11 @@
         </ul>
       </div>
     </md-sidenav>
-    <md-sidenav-container class="app-sidenav-container ">
+    <div class="app-sidenav-container ">
       <div class="app-content ">
         <!--添加路由插座-->
         <router-outlet></router-outlet>
       </div>
-    </md-sidenav-container>
-  </md-sidenav-layout>
+    </div>
+  </md-sidenav-container>
 </div>
