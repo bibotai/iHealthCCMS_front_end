@@ -18,16 +18,19 @@ export class ComplaintDetail implements OnInit {
             .route
             .params
             .subscribe((params : Params) => {
+                console.log('param', params['id']);
                 this
                     .redmineService
                     .getRedmineState(1494)
                     .then(data => {
-                        console.log(data);
-                        this.complaint = this
+                        this
                             .complaintService
-                            .complaintList
-                            .find(s => s._id == params['id']);
-                        console.log(this.complaint);
+                            .getComplaint(params['id'])
+                            .then(data => {
+                                this.complaint = data;
+                                console.log(this.complaint);
+                            });
+
                     })
 
             });

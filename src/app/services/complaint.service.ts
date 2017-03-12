@@ -6,14 +6,15 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class ComplaintService {
     public complaintList : Complaint[];
-    private complaintsUrl = 'http://localhost:3000/search'; // URL to web api
+    public complaint : Complaint;
+    private complaintsUrl = 'http://localhost:3000'; // URL to web api
 
     constructor(private http : Http) {}
     getComplaints(pagesize : number, pagestart : number, sid : string = null) : Promise < Complaint[] > {
         let baseurl: string = this.complaintsUrl;
         console.log(sid);
         if (sid) {
-            baseurl = `${this.complaintsUrl}/${Number(sid)}`;
+            baseurl = `${this.complaintsUrl}/search/${Number(sid)}`;
             console.log(baseurl);
         }
         return this
@@ -21,6 +22,16 @@ export class ComplaintService {
             .get(`${baseurl}?pagesize=${pagesize}&pagestart=${pagestart}`)
             .toPromise()
             .then(response => this.complaintList = response.json()as Complaint[])
+            .catch(this.handleError);
+    }
+
+    getComplaint(id : string) : Promise < Complaint > {
+        let baseurl: string = this.complaintsUrl;
+        return this
+            .http
+            .get(`${baseurl}/rewContent/${id}`)
+            .toPromise()
+            .then(response => this.complaint = response.json()as Complaint)
             .catch(this.handleError);
     }
 

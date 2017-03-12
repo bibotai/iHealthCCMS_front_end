@@ -19,6 +19,8 @@ import {RouterModule} from '@angular/router';
 import 'hammerjs';
 //Model-Driven Forms
 import {ReactiveFormsModule} from '@angular/forms';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+
 // other imports
 @NgModule({
   declarations: [
@@ -34,7 +36,11 @@ import {ReactiveFormsModule} from '@angular/forms';
     SendRedmineDialog, IgnoreDialog
   ],
   providers: [
-    ComplaintService, RedmineService
+    ComplaintService,
+    RedmineService, {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    }
   ],
   bootstrap: [appComponent]
 })
