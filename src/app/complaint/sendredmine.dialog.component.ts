@@ -46,24 +46,37 @@ export class SendRedmineDialog implements OnInit {
       .getRedmineKeybyName("layer");
     this.data = this.dialogRef.componentInstance.data;
     console.log(this.data);
-    //init
+    //init 来源
     let src = '';
     src = '';
-    if (this.data.v == "Itunes Connect") {
+    if (this.data.orgin == "Itunes Connect") {
       src = 'Apple Store';
     } else if (this.data.orgin == "googlePlay") {
       src = 'Google Play';
     } else {
       src = 'FDA';
     }
+    //描述
+    let description = '';
+    if (this.data.content.rewContent) {
+      description += `原文：${this.data.content.rewContent}\n`;
+    } else {
+      description += `原文：${this.data.content.rewTitle}\n`
+    }
+    if (this.data.content.tranContentZh) {
+      description += `中文翻译：${this.data.content.tranContentZh}\n`;
+    }
+    if (this.data.content.tranContent) {
+      description += `英文翻译：${this.data.content.tranContent}\n`;
+    }
     this.sendRedmineForm = this
       .formbuilder
       .group({
         issueTags: 9,
-        subject: this.data.content.rewTitle,
-        description: this.data.content.tranContentZh
-          ? this.data.content.tranContentZh
+        subject: this.data.content.rewTitle
+          ? this.data.content.rewTitle
           : this.data.content.rewContent,
+        description: description,
         receiver: this.data.appName == 'MyVitals'
           ? '李澄'
           : '包磊',
@@ -76,7 +89,7 @@ export class SendRedmineDialog implements OnInit {
           : '',
         version: this.data.appVersion
           ? this.data.appVersion
-          : '',
+          : '未知版本',
         layer: 'app',
         rewDate: this.data.rewDate,
 
