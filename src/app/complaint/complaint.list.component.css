@@ -75,3 +75,23 @@
       color: rgba(225, 225, 0, 0.38);
       border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
+    
+    a:link {
+      text-decoration: none;
+      color: black;
+    }
+    
+    a:active {
+      text-decoration: none;
+      color: black;
+    }
+    
+    a:hover {
+      text-decoration: none;
+      color: black;
+    }
+    
+    a:visited {
+      text-decoration: none;
+      color: black;
+    }

@@ -27,14 +27,24 @@
   </div>
 </div>
 <div class="list">
+  <md-card>
+    <small>
+          <a href="#" (click)="table.rowDetail.expandAllRows()">展开全部</a> | 
+          <a href="#" (click)="table.rowDetail.collapseAllRows()">收起全部l</a>
+        </small>
+  </md-card>
   <ngx-datatable #myTable class="material expandable" [columnMode]="'force'" [loadingIndicator]="loadingIndicator" [headerHeight]="50"
     [footerHeight]="0" [rowHeight]="60" [rows]="complaintsDisplay">
     <!-- Row Detail Template -->
-    <ngx-datatable-row-detail #myDetailRow (toggle)="onDetailToggle($event)">
-      <template ngx-datatable-row-detail-template>
+    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+      <template let-row="row" ngx-datatable-row-detail-template>
         <div style="padding-left:35px;">
           <div><strong>详细信息</strong></div>
-          <div>fsfsdfsdf</div>
+          <div *ngIf="row.raw?.content?.rewTitle">主题：{{row.raw?.content?.rewTitle}}</div>
+          <div *ngIf="row.raw?.content?.rewContent">原文：{{row.raw?.content?.rewContent}}</div>
+          <div *ngIf="row.raw?.content?.tranContent">英文翻译：{{row.raw?.content?.tranContent}}</div>
+          <div *ngIf="row.raw?.content?.tranContentZh">中文翻译：{{row.raw?.content?.tranContentZh}}</div>
+          <div *ngIf="row.raw?.content?.star">评星{{row.raw?.content?.star}}</div>
         </div>
       </template>
     </ngx-datatable-row-detail>

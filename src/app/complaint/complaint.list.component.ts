@@ -239,7 +239,6 @@ export class ComplaintListComponent implements OnInit {
             .rowDetail
             .toggleExpandRow(row);
     }
-
     onDetailToggle(event) {
         console.log('Detail Toggled', event);
     }
