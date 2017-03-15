@@ -1,11 +1,16 @@
-<div class="dialog-content" style="width: 600px;height: 100px">
+<div class="dialog-content" style="width: 600px;height: 120px">
   <form>
     <md-input-container class="input-full-width" style="width: 100%">
-      <input #res mdInput placeholder="请输入理由" (blur)="reason=res.value" name="reason">
+      <input #res mdInput placeholder="请输入理由" [(ngModel)]="reason" value={{selectreason}} name="reason">
     </md-input-container>
+    <md-radio-group #selres class="input-full-width" style="width: 100%" [(ngModel)]="selectreason" name="selectreason">
+      <md-radio-button color='primary' *ngFor="let reason of defaultreason" [value]="reason">
+        {{reason}}
+      </md-radio-button>
+    </md-radio-group>
     <div class="input-full-width" style="width: 100%">
       <div class="dialog-send-button" style="float: right;">
-        <button md-raised-button md-no-ink (click)="ignore()" class="md-primary">忽略</button>
+        <button md-raised-button md-no-ink (click)="ignore()" color='primary' class="md-primary">忽略</button>
       </div>
     </div>
   </form>

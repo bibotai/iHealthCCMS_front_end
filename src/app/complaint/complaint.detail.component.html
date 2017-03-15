@@ -20,10 +20,10 @@
             <li>评星：{{complaint?.content.star}}</li>
           </ol>
           <div class="inner-content">
-            <p>评论主题：{{complaint?.content.rewTitle}}</p>
-            <p>评论内容：{{complaint?.content.rewContent}}</p>
-            <p>英文翻译：{{complaint?.content.tranContent}}</p>
-            <p>中文翻译：{{complaint?.content.tranContentZh}}</p>
+            <p *ngIf="complaint?.content.rewTitle">评论主题：{{complaint?.content.rewTitle}}</p>
+            <p *ngIf="complaint?.content.rewContent">评论内容：{{complaint?.content.rewContent}}</p>
+            <p *ngIf="complaint?.content.tranContent">英文翻译：{{complaint?.content.tranContent}}</p>
+            <p *ngIf="complaint?.content.tranContentZh">中文翻译：{{complaint?.content.tranContentZh}}</p>
           </div>
         </div>
       </div>
@@ -31,15 +31,21 @@
         <div class="title">redmine信息</div>
         <div class="inner-list">
           <ol>
+            <li>跟踪标签：{{complaint?.redmineMsg?.tracker.name}}</li>
             <li>状态：{{complaint?.redmineMsg?.status.name}}</li>
             <li>开始时间：{{complaint?.redmineMsg?.created_on}}</li>
             <li>优先级：{{complaint?.redmineMsg?.priority.name}}</li>
-            <li>计划完成时间：</li>
             <li>指派给：{{complaint?.redmineMsg?.assigned_to.name}}</li>
             <li>%完成：{{complaint?.redmineMsg?.done_ratio}}</li>
-            <li>类别：</li>
-            <li>耗时：</li>
-            <li>目标版本：</li>
+            <li>客诉时间：{{complaint?.redmineMsg?.custom_fields[0].value}}</li>
+            <li>客诉接收时间：{{complaint?.redmineMsg?.custom_fields[1].value}}</li>
+            <li>客诉来源：{{complaint?.redmineMsg?.custom_fields[2].value}}</li>
+            <li>客诉产品型号：{{complaint?.redmineMsg?.custom_fields[3].value}}</li>
+            <li>客诉处理部门：{{complaint?.redmineMsg?.custom_fields[4].value}}</li>
+            <li>APP版本：{{complaint?.redmineMsg?.custom_fields[5].value}}</li>
+            <li>地区：{{complaint?.redmineMsg?.custom_fields[17].value}}</li>
+            <li>版本：{{complaint?.redmineMsg?.custom_fields[19].value}}</li>
+            <li>原始id：{{complaint?.redmineMsg?.custom_fields[23].value}}</li>
           </ol>
         </div>
       </div>

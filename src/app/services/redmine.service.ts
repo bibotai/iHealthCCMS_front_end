@@ -283,6 +283,7 @@ export class RedmineService {
 
     getRedmineState(pid : number) : Promise < string > {
         return new Promise < string > ((resolve, reject) => {
+            console.log('refresh redmine state url', `${this.baseApiUrl}redmine/${pid}`);
             this
                 .http
                 .get(`${this.baseApiUrl}redmine/${pid}`)

@@ -27,6 +27,7 @@ export class ComplaintService {
 
     getComplaint(id : string) : Promise < Complaint > {
         let baseurl: string = this.complaintsUrl;
+        console.log('url', `${baseurl}/rewContent/${id}`);
         return this
             .http
             .get(`${baseurl}/rewContent/${id}`)
