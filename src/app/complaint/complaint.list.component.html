@@ -27,17 +27,24 @@
   </div>
 </div>
 <div class="list">
-  <ngx-datatable class="material expandable" [columnMode]="'flex'" [loadingIndicator]="loadingIndicator" [headerHeight]="50"
+  <ngx-datatable #myTable class="material expandable" [columnMode]="'force'" [loadingIndicator]="loadingIndicator" [headerHeight]="50"
     [footerHeight]="0" [rowHeight]="60" [rows]="complaintsDisplay">
     <!-- Row Detail Template -->
-    <!--<ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
-      <ng-template let-row="row" ngx-datatable-row-detail-template>
+    <ngx-datatable-row-detail #myDetailRow (toggle)="onDetailToggle($event)">
+      <template ngx-datatable-row-detail-template>
         <div style="padding-left:35px;">
           <div><strong>详细信息</strong></div>
-          <div>{{row.raw.content.rewContent}}}</div>
+          <div>fsfsdfsdf</div>
         </div>
-      </ng-template>
-    </ngx-datatable-row-detail>-->
+      </template>
+    </ngx-datatable-row-detail>
+    <!-- Column Templates -->
+    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false">
+      <template let-row="row" ngx-datatable-cell-template>
+        <a href="#" [class.icon-right]="!row.$$expanded" [class.icon-down]="row.$$expanded" title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+        </a>
+      </template>
+    </ngx-datatable-column>
     <ngx-datatable-column name="编号" prop="id" [flexGrow]="1">
       <template let-value="value" ngx-datatable-cell-template>
         {{value}}

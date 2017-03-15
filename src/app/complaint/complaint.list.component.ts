@@ -1,4 +1,4 @@
-import {Component, OnInit, Optional} from '@angular/core';
+import {Component, OnInit, Optional, ViewEncapsulation, ViewChild} from '@angular/core';
 import {MdDialog, MdDialogRef, MdSnackBar} from '@angular/material';
 import {ComplaintService} from '../services/complaint.service';
 import {Complaint} from '../models/complaint';
@@ -13,7 +13,7 @@ import 'rxjs/add/operator/switchMap';
 //弹出层
 import {SendRedmineDialog} from './sendredmine.dialog.component';
 import {IgnoreDialog} from './ignore.dialog.component';
-@Component({selector: 'complaintlist', templateUrl: './complaint.list.component.html', styleUrls: ['./complaint.list.component.css']})
+@Component({selector: 'complaintlist', templateUrl: './complaint.list.component.html', encapsulation: ViewEncapsulation.None, styleUrls: ['./complaint.list.component.css']})
 
 export class ComplaintListComponent implements OnInit {
     constructor(private complaintService : ComplaintService, private redmineService : RedmineService, private route : ActivatedRoute, public dialog : MdDialog, private formbuilder : FormBuilder) {
@@ -22,6 +22,7 @@ export class ComplaintListComponent implements OnInit {
             .formbuilder
             .group({orgin: '', app: ''});
     }
+    @ViewChild('myTable')table : any;
     complaints : Complaint[];
     complaintsDisplay : ComplaintDisplay[] = [];
     title : String;
@@ -217,5 +218,17 @@ export class ComplaintListComponent implements OnInit {
         this.apps = this
             .redmineService
             .getRedmineEnumsArraybyName('app');
+    }
+
+    toggleExpandRow(row) {
+        console.log('Toggled Expand Row!', row);
+        this
+            .table
+            .rowDetail
+            .toggleExpandRow(row);
+    }
+
+    onDetailToggle(event) {
+        console.log('Detail Toggled', event);
     }
 }
