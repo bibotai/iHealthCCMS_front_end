@@ -49,6 +49,14 @@
           </ol>
         </div>
       </div>
+      <div *ngIf="complaint?.ingnoreRes" class="box">
+        <div class="title">忽略原因</div>
+        <div class="inner-list">
+          <ol>
+            <li>{{complaint?.ingnoreRes}}</li>
+          </ol>
+        </div>
+      </div>
     </div>
   </div>
 </div>
