@@ -16,6 +16,8 @@ export class ComplaintService {
         if (sid) {
             baseurl = `${this.complaintsUrl}/search/${Number(sid)}`;
             console.log(baseurl);
+        } else {
+            baseurl = `${this.complaintsUrl}/search`;
         }
         return this
             .http
