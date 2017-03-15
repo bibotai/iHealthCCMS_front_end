@@ -16,12 +16,11 @@ export class IgnoreDialog implements OnInit {
     }
 
     ignore() : void {
-        console.log('ignore reason is', this.reason);
         this
             .redmineService
             .ignore(this.data._id, this.reason
                 ? this.reason
-                : this.selectreason)
+                : this.selectreason, this.data.ignoretype)
             .then((data) => {
                 this
                     .dialogRef

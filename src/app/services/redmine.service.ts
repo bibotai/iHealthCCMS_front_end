@@ -236,12 +236,12 @@ export class RedmineService {
 
     }
 
-    ignore(_id, reason) : Promise < string > {
+    ignore(_id, reason, type) : Promise < string > {
 
         const data = {
             "_id": _id,
             "ingnoreRes": reason,
-            "state": 3
+            "state": type
         };
         console.log(data);
         return new Promise < string > ((resolve, reject) => {

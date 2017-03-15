@@ -86,7 +86,8 @@ export class ComplaintListComponent implements OnInit {
                     state = '未处理';
                     objButtonShow = {
                         isSendShow: true,
-                        isIgnoreShow: true
+                        isIgnoreShow: true,
+                        isFollowShow: true
                     }
                     complaintDisplay.raw = Object.assign(complaint, objButtonShow);
                     console.log(complaintDisplay.raw);
@@ -113,6 +114,14 @@ export class ComplaintListComponent implements OnInit {
                     break;
                 case 3:
                     state = '已忽略';
+                    objButtonShow = {
+                        isSendShow: false,
+                        isIgnoreShow: false,
+                        isReductionShow: true
+                    }
+                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
+                case 4:
+                    state = '需跟进';
                     objButtonShow = {
                         isSendShow: false,
                         isIgnoreShow: false,
@@ -153,6 +162,9 @@ export class ComplaintListComponent implements OnInit {
         } else if (action == 'ignored') {
             this.title = '已忽略列表';
             this.sid = '3';
+        } else if (action == 'followup') {
+            this.title = '需跟进列表';
+            this.sid = '4';
         }
 
     }
@@ -172,11 +184,11 @@ export class ComplaintListComponent implements OnInit {
                 });
 
     }
-    openIgnoreDialog(raw) : void {
+    openIgnoreDialog(raw, type) : void {
         let dialogRef = this
             .dialog
             .open(IgnoreDialog);
-        dialogRef.componentInstance.data = raw;
+        dialogRef.componentInstance.data = Object.assign(raw, {ignoretype: type});
         dialogRef
             .afterClosed()
             .subscribe(data => {

@@ -68,7 +68,8 @@
     <ngx-datatable-column name="操作" prop="raw" [flexGrow]="1">
       <template let-value="value" ngx-datatable-cell-template>
         <button *ngIf="value.isSendShow" color='primary' md-mini-fab md-no-ink (click)="openRedmineDialog(value)" class="md-primary"><md-icon>send</md-icon></button>
-        <button *ngIf="value.isIgnoreShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value)" class="md-primary"><md-icon>delete</md-icon></button>
+        <button *ngIf="value.isIgnoreShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,3)" class="md-primary"><md-icon>delete</md-icon></button>
+        <button *ngIf="value.isFollowShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,4)" class="md-primary"><md-icon>help</md-icon></button>
         <button *ngIf="value.isReductionShow" color='primary' md-mini-fab md-no-ink (click)="reductionIgnore(value)" class="md-primary"><md-icon>restore</md-icon></button>
       </template>
     </ngx-datatable-column>
