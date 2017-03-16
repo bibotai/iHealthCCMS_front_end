@@ -5,6 +5,7 @@ import {Complaint} from '../models/complaint';
 import {ComplaintService} from '../services/complaint.service'
 import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Params} from '@angular/router';
+import {redmineProjectIds} from '../config/app.config'
 import 'rxjs/add/operator/toPromise';
 
 @Component({selector: 'complaintdetail', templateUrl: './complaint.detail.component.html', styleUrls: ['./complaint.detail.component.css']})
@@ -14,14 +15,25 @@ export class ComplaintDetail implements OnInit {
     complaint : Complaint;
 
     ngOnInit() : void {
+
         this
             .route
             .params
             .subscribe((params : Params) => {
-                console.log('param', params['id']);
+                console.log('param:id', params['id']);
+                console.log('param:type', params['type']);
+                let projectid : number;
+                if (params['type'] == 'googlePlay') {
+                    projectid = redmineProjectIds.googleplay;
+                } else if (params['type'] == 'Itunes Connect') {
+                    projectid = redmineProjectIds.appstore;
+                } else {
+                    projectid = redmineProjectIds.fda;
+                }
+                console.log('projectid', projectid);
                 this
                     .redmineService
-                    .getRedmineState(1494)
+                    .getRedmineState(projectid)
                     .then(data => {
                         this
                             .complaintService

@@ -74,7 +74,6 @@ export class RedmineService {
     };
 
     private baseApiUrl = 'http://localhost:3000/';
-    private projectid = 1494;
 
     formatDate = function (date) {
         var y = date.getFullYear();
@@ -100,7 +99,7 @@ export class RedmineService {
         console.log(objFrom);
         const issue = {
             "issue": {
-                "project_id": this.projectid,
+                "project_id": objFrom.projectId,
                 "subject": objFrom.subject,
                 "priority_id": 2,
                 "status_id": 1,

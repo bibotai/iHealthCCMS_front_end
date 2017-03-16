@@ -12,7 +12,7 @@ const routes : Routes = [
         path: 'complaintlist/:action',
         component: ComplaintListComponent
     }, {
-        path: 'complaintdetail/:id',
+        path: 'complaintdetail/:type/:id',
         component: ComplaintDetail
     }
 ];

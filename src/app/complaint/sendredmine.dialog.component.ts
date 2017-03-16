@@ -2,6 +2,7 @@ import {Component, OnInit, Optional} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {RedmineService} from '../services/redmine.service';
 import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
+import {redmineProjectIds} from '../config/app.config'
 import 'rxjs/add/operator/toPromise';
 
 @Component({selector: 'sendredminedialog', templateUrl: './sendredmine.dialog.component.html', styleUrls: ['./sendredmine.dialog.component.css']})
@@ -24,7 +25,7 @@ export class SendRedmineDialog implements OnInit {
       });
 
   };
-
+  redmineProjectIds : any;
   issueTags : Object;
   receivers : Object;
   departments : Object;
@@ -32,6 +33,7 @@ export class SendRedmineDialog implements OnInit {
   data : any;
   sendRedmineForm;
   ngOnInit() : void {
+    this.redmineProjectIds = redmineProjectIds;
     this.issueTags = this
       .redmineService
       .getRedmineEnumsArraybyName('issueTags');
@@ -48,13 +50,17 @@ export class SendRedmineDialog implements OnInit {
     console.log(this.data);
     //init 来源
     let src = '';
+    let projectid: number;
     src = '';
     if (this.data.orgin == "Itunes Connect") {
       src = 'Apple Store';
+      projectid = this.redmineProjectIds.appstore;
     } else if (this.data.orgin == "googlePlay") {
       src = 'Google Play';
+      projectid = this.redmineProjectIds.googleplay;
     } else {
       src = 'FDA';
+      projectid = this.redmineProjectIds.fda;
     }
     //描述
     let description = '';
@@ -95,7 +101,8 @@ export class SendRedmineDialog implements OnInit {
 
         orgin: src,
         orginId: this.data.orginId,
-        id: this.data._id
+        id: this.data._id,
+        projectId: projectid
       })
   }
 

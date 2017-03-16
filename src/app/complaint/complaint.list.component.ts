@@ -47,7 +47,7 @@ export class ComplaintListComponent implements OnInit {
             .then(complaints => {
                 this.complaintsDisplay = this.getComplaintsDisplay(complaints);
                 this.loadingIndicator = false;
-                console.log(complaints);
+                // console.log(complaints);
                 if (complaints.length == 0) 
                     this.isOverflow = false;
 
@@ -90,8 +90,8 @@ export class ComplaintListComponent implements OnInit {
                         isFollowShow: true
                     }
                     complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-                    console.log(complaintDisplay.raw);
-                    //  {     isSendShow: true,     isIgnoreShow: false,     ...complaint }
+                    // console.log(complaintDisplay.raw);  {     isSendShow: true,     isIgnoreShow:
+                    // false,     ...complaint }
                     break;
                 case 1:
                     state = '处理中';

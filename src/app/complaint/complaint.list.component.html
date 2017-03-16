@@ -64,7 +64,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="主题" prop="subject" [flexGrow]="1">
       <template let-row="row" ngx-datatable-cell-template>
-        <a [routerLink]="['/complaintdetail', row._id]"> {{row.subject}}</a>
+        <a [routerLink]="['/complaintdetail', row.raw.orgin,row._id]"> {{row.subject}}</a>
       </template>
     </ngx-datatable-column>
     <ngx-datatable-column name="来源" prop="orgin" [flexGrow]="1">
