@@ -9,7 +9,7 @@ const routes : Routes = [
         redirectTo: '/complaintlist/notprocessed',
         pathMatch: 'full'
     }, {
-        path: 'complaintlist/:action',
+        path: 'complaintlist/:action/:page',
         component: ComplaintListComponent
     }, {
         path: 'complaintdetail/:type/:id',

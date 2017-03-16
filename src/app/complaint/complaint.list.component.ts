@@ -5,6 +5,7 @@ import {Complaint} from '../models/complaint';
 import {ComplaintDisplay} from '../models/complaintdisplay';
 import {ActivatedRoute, Params} from '@angular/router';
 import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
+import {Location} from '@angular/common';
 
 import {RedmineService} from '../services/redmine.service';
 import 'rxjs/add/operator/map';
@@ -16,7 +17,7 @@ import {IgnoreDialog} from './ignore.dialog.component';
 @Component({selector: 'complaintlist', templateUrl: './complaint.list.component.html', encapsulation: ViewEncapsulation.None, styleUrls: ['./complaint.list.component.css']})
 
 export class ComplaintListComponent implements OnInit {
-    constructor(private complaintService : ComplaintService, private redmineService : RedmineService, private route : ActivatedRoute, public dialog : MdDialog, private formbuilder : FormBuilder) {
+    constructor(private complaintService : ComplaintService, private redmineService : RedmineService, private route : ActivatedRoute, public dialog : MdDialog, private formbuilder : FormBuilder, private location : Location) {
 
         this.searchForm = this
             .formbuilder
@@ -38,6 +39,8 @@ export class ComplaintListComponent implements OnInit {
     searchForm : any;
     orgins : any;
     apps : any;
+    action : string;
+    page : number = 0;
 
     getComplaints(offset, limit) : void {
         this
@@ -48,26 +51,40 @@ export class ComplaintListComponent implements OnInit {
                 this.complaintsDisplay = this.getComplaintsDisplay(complaints);
                 this.loadingIndicator = false;
                 // console.log(complaints);
-                if (complaints.length == 0) 
+                if (complaints.length == 0) {
+                    this.isOverflow = true;
+                    console.log('isOverflow!');
+                } else {
                     this.isOverflow = false;
-
                 }
-            );
+
+            });
 
     }
 
     onPageDown() : void {
         //Todo:这里有个bug
-        if(!this.isOverflow) {
+        console.log(this.isOverflow);
+        if (!this.isOverflow) {
             this.offset++;
+            this.page++;
             this.getComplaints(this.offset, this.limit);
+            this
+                .location
+                .replaceState(`/complaintlist/${this.action}/${this.page}`);
+
         }
     }
 
     onPageUp() {
-        if (this.offset > 0) 
+        if (this.offset > 0) {
             this.offset--;
-        this.getComplaints(this.offset, this.limit);
+            this.page--;
+            this.getComplaints(this.offset, this.limit);
+            this
+                .location
+                .replaceState(`/complaintlist/${this.action}/${this.page}`);
+        }
     }
 
     getComplaintsDisplay(complaints : Complaint[]) : ComplaintDisplay[] {
@@ -218,8 +235,10 @@ export class ComplaintListComponent implements OnInit {
             .route
             .params
             .subscribe(params => {
-
+                this.action = params['action'];
+                this.page = Number(params['page']);
                 this.getTitleSid(params['action']);
+                this.offset = this.page - 1;
                 this.getComplaints(this.offset, this.limit);
             });
 
