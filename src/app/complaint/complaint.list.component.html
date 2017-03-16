@@ -45,6 +45,8 @@
           <div *ngIf="row.raw?.content?.tranContent">英文翻译：{{row.raw?.content?.tranContent}}</div>
           <div *ngIf="row.raw?.content?.tranContentZh">中文翻译：{{row.raw?.content?.tranContentZh}}</div>
           <div *ngIf="row.raw?.content?.star">评星{{row.raw?.content?.star}}</div>
+          <div *ngIf="row.raw?.deviceInfo?.device">手机型号：{{row.raw?.deviceInfo?.device}}</div>
+          <div *ngIf="row.raw?.deviceInfo?.OS">手机系统：{{row.raw?.deviceInfo?.OS}}</div>
         </div>
       </template>
     </ngx-datatable-row-detail>

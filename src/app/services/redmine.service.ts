@@ -220,7 +220,7 @@ export class RedmineService {
         return new Promise < string > ((resolve, reject) => {
             let headers = new Headers();
             headers.append('Content-Type', 'application/json');
-            console.log('issue', issue);
+            console.log('issue', JSON.stringify(issue));
             this
                 .http
                 .post(this.baseApiUrl + 'redmine/insert', {
@@ -233,7 +233,6 @@ export class RedmineService {
                     reject(JSON.stringify(error.json()));
                 });
         });
-
     }
 
     ignore(_id, reason, type) : Promise < string > {

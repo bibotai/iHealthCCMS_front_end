@@ -27,6 +27,15 @@
           </div>
         </div>
       </div>
+      <div *ngIf="complaint?.deviceInfo" class="box">
+        <div class="title">手机信息</div>
+        <div class="inner-list">
+          <ol>
+            <li>手机型号：{{complaint?.deviceInfo?.device}}</li>
+            <li>手机系统：{{complaint?.deviceInfo?.OS}}</li>
+          </ol>
+        </div>
+      </div>
       <div *ngIf="complaint?.redmineMsg" class="box">
         <div class="title">redmine信息</div>
         <div class="inner-list">
