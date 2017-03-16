@@ -104,7 +104,7 @@ export class RedmineService {
                 "priority_id": 2,
                 "status_id": 1,
                 "author_id": 183,
-                "assigned_to_id": 140,
+                "assigned_to_id": objFrom.assignedTo,
                 "description": objFrom.description,
                 "tracker_id": objFrom.issueTags,
                 "custom_fields": [

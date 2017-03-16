@@ -102,7 +102,10 @@ export class SendRedmineDialog implements OnInit {
         orgin: src,
         orginId: this.data.orginId,
         id: this.data._id,
-        projectId: projectid
+        projectId: projectid,
+        assignedTo: this.data.appName == 'MyVitals'
+          ? 110
+          : 140
       })
   }
 
