@@ -21,7 +21,7 @@ export class ComplaintListComponent implements OnInit {
 
         this.searchForm = this
             .formbuilder
-            .group({orgin: '', app: ''});
+            .group({orgin: '', app: '', keyword: ''});
     }
     @ViewChild('myTable')table : any;
     complaints : Complaint[];
@@ -42,12 +42,13 @@ export class ComplaintListComponent implements OnInit {
     action : string;
     page : number = 0;
 
-    getComplaints(offset, limit) : void {
+    getComplaints(offset, limit, query = null) : void {
         this
             .complaintService
-            .getComplaints(limit, offset + 1, this.sid)
+            .getComplaints(limit, offset + 1, this.sid, query)
             .then(complaints => this.complaints = complaints)
             .then(complaints => {
+                console.log(complaints);
                 this.complaintsDisplay = this.getComplaintsDisplay(complaints);
                 this.loadingIndicator = false;
                 // console.log(complaints);
@@ -89,12 +90,14 @@ export class ComplaintListComponent implements OnInit {
 
     getComplaintsDisplay(complaints : Complaint[]) : ComplaintDisplay[] {
         let complaintsDisplayArr : ComplaintDisplay[] = [];
+        console.log(complaints);
         complaints.forEach((complaint, index) => {
             let complaintDisplay = new ComplaintDisplay();
             complaintDisplay.id = (index + 1).toString();
             complaintDisplay._id = complaint._id;
             complaintDisplay.appname = complaint.appName;
             complaintDisplay.orgin = complaint.orgin;
+            console.log('foreach');
             //complaintDisplay.raw = complaint; state，0未处理,1处理中,2已处理,3已忽略
             let state = '';
             let objButtonShow = {}
@@ -228,6 +231,35 @@ export class ComplaintListComponent implements OnInit {
                     }
                 });
 
+    }
+
+    search() : void {
+        let querycondition = {}
+        if (this.searchForm.value.orgin) {
+            Object.assign(querycondition, {"orgin": this.searchForm.value.orgin});
+        }
+        if (this.searchForm.value.app) {
+            Object.assign(querycondition, {"appName": this.searchForm.value.app});
+        }
+        if (this.searchForm.value.keyword) {
+            Object.assign(querycondition, {
+                $or: [
+                    {
+                        "content.rewTitle": `/${this.searchForm.value.keyword}/`
+                    }, {
+                        "content.rewContent": `/${this.searchForm.value.keyword}/`
+                    }, {
+                        "content.authorName": `/${this.searchForm.value.keyword}/`
+                    }, {
+                        "content.tranContent": `/${this.searchForm.value.keyword}/`
+                    }, {
+                        "content.tranContentZh": `/${this.searchForm.value.keyword}/`
+                    }
+                ]
+            });
+        }
+        console.log(JSON.stringify(querycondition));
+        this.getComplaints(0, 10, querycondition)
     }
 
     ngOnInit() : void {

@@ -43,7 +43,7 @@ export class RedmineService {
                 enumsArray.push(objSelectObject);
 
             });
-
+        console.log(enumsArray);
         return enumsArray;
     };
 

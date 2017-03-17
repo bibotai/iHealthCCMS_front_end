@@ -10,21 +10,43 @@ export class ComplaintService {
     private complaintsUrl = 'http://localhost:3000'; // URL to web api
 
     constructor(private http : Http) {}
-    getComplaints(pagesize : number, pagestart : number, sid : string = null) : Promise < Complaint[] > {
+    getComplaints(pagesize : number, pagestart : number, sid : string = null, query = null) : Promise < Complaint[] > {
         let baseurl: string = this.complaintsUrl;
         console.log(sid);
-        if (sid) {
-            baseurl = `${this.complaintsUrl}/search/${Number(sid)}`;
-            console.log(baseurl);
-        } else {
-            baseurl = `${this.complaintsUrl}/search`;
+        let searchfind = 'search';
+        if (query) {
+            searchfind = 'find'
         }
-        return this
-            .http
-            .get(`${baseurl}?pagesize=${pagesize}&pagestart=${pagestart}`)
-            .toPromise()
-            .then(response => this.complaintList = response.json()as Complaint[])
-            .catch(this.handleError);
+        if (sid) {
+            baseurl = `${this.complaintsUrl}/${searchfind}/${Number(sid)}`;
+
+        } else {
+            baseurl = `${this.complaintsUrl}/${searchfind}`;
+        }
+        console.log(query);
+        console.log(baseurl);
+        if (query) {
+            return new Promise < Complaint[] > ((resolve, reject) => {
+                this
+                    .http
+                    .post(baseurl, query)
+                    .toPromise()
+                    .then(response => {
+                        this.complaintList = response.json()as Complaint[];
+                        resolve(this.complaintList);
+                        // console.log(response); console.log(this.complaintList);
+                    })
+                    .catch(this.handleError);
+            })
+
+        } else {
+            return this
+                .http
+                .get(`${baseurl}?pagesize=${pagesize}&pagestart=${pagestart}`)
+                .toPromise()
+                .then(response => this.complaintList = response.json()as Complaint[])
+                .catch(this.handleError);
+        }
     }
 
     getComplaint(id : string) : Promise < Complaint > {

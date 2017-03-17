@@ -1,37 +1,44 @@
 <div class="alllist-header">
   <h1>{{title}}</h1>
 </div>
-<div class="query-container">
-  <div class="box">
-    <form [formGroup]="searchForm">
-      <div class="inner-list">
-        <ol>
-          <li>
-            <md-select class="md-select" color="primary" placeholder="来源" formControlName="orgin">
-              <md-option *ngFor="let orgin of orgins" [value]="orgin.value">
-                {{orgin.viewValue}}
-              </md-option>
-            </md-select>
-          </li>
-          <li>
-            <md-select class="md-select" color="primary" placeholder="应用" formControlName="app">
-              <md-option *ngFor="let app of apps" [value]="app.value">
-                {{app.viewValue}}
-              </md-option>
-            </md-select>
-          </li>
-          <li>来源：{{complaint==null?'':complaint.orgin}}</li>
-        </ol>
-      </div>
-    </form>
-  </div>
-</div>
 <div class="list">
   <md-card>
-    <small>
-          <a href="#" (click)="table.rowDetail.expandAllRows()">展开全部</a> | 
-          <a href="#" (click)="table.rowDetail.collapseAllRows()">收起全部l</a>
-        </small>
+    <div class="query-container">
+      <div class="box">
+        <form [formGroup]="searchForm">
+          <div class="inner-list">
+            <div class="condition">
+              <small>
+                <a href="#" (click)="table.rowDetail.expandAllRows()">展开全部</a> |
+                <a href="#" (click)="table.rowDetail.collapseAllRows()">收起全部</a>
+              </small>
+            </div>
+            <div class="condition">
+              <md-select class="md-select" color="primary" placeholder="来源" formControlName="orgin">
+                <md-option *ngFor="let orgin of orgins" [value]="orgin.value">
+                  {{orgin.viewValue}}
+                </md-option>
+              </md-select>
+            </div>
+            <div class="condition">
+              <md-select class="md-select" color="primary" placeholder="应用" formControlName="app">
+                <md-option *ngFor="let app of apps" [value]="app.value">
+                  {{app.viewValue}}
+                </md-option>
+              </md-select>
+            </div>
+            <div class="condition">
+              <md-input-container class="input-full-width">
+                <input mdInput placeholder="关键字" formControlName="keyword">
+              </md-input-container>
+            </div>
+            <div class="condition">
+              <button md-raised-button md-no-ink (click)="search()" color='primary' class="md-primary">查询</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </md-card>
   <ngx-datatable #myTable class="material expandable" [columnMode]="'force'" [loadingIndicator]="loadingIndicator" [headerHeight]="50"
     [footerHeight]="0" [rowHeight]="60" [rows]="complaintsDisplay">
