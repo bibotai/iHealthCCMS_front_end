@@ -41,6 +41,7 @@ export class ComplaintListComponent implements OnInit {
     apps : any;
     action : string;
     page : number = 0;
+    querycondition : Object = {};
 
     getComplaints(offset, limit, query = null) : void {
         this
@@ -69,7 +70,12 @@ export class ComplaintListComponent implements OnInit {
         if (!this.isOverflow) {
             this.offset++;
             this.page++;
-            this.getComplaints(this.offset, this.limit);
+            this.getQueryCondition();
+            if (this.querycondition) {
+                Object.assign(this.querycondition, {"state": this.sid})
+                this.getComplaints(this.offset, this.limit, this.querycondition);
+            }
+
             this
                 .location
                 .replaceState(`/complaintlist/${this.action}/${this.page}`);
@@ -81,7 +87,11 @@ export class ComplaintListComponent implements OnInit {
         if (this.offset > 0) {
             this.offset--;
             this.page--;
-            this.getComplaints(this.offset, this.limit);
+            this.getQueryCondition();
+            if (this.querycondition) {
+                Object.assign(this.querycondition, {"state": this.sid})
+                this.getComplaints(this.offset, this.limit, this.querycondition);
+            }
             this
                 .location
                 .replaceState(`/complaintlist/${this.action}/${this.page}`);
@@ -233,33 +243,51 @@ export class ComplaintListComponent implements OnInit {
 
     }
 
-    search() : void {
-        let querycondition = {}
-        if (this.searchForm.value.orgin) {
-            Object.assign(querycondition, {"orgin": this.searchForm.value.orgin});
+    getQueryCondition() : void {
+        if(this.searchForm.value.orgin) {
+            Object.assign(this.querycondition, {"orgin": this.searchForm.value.orgin});
         }
         if (this.searchForm.value.app) {
-            Object.assign(querycondition, {"appName": this.searchForm.value.app});
+            Object.assign(this.querycondition, {"appName": this.searchForm.value.app});
         }
         if (this.searchForm.value.keyword) {
-            Object.assign(querycondition, {
+            let qs = new RegExp(this.searchForm.value.keyword, 'i');
+            console.log(qs);
+            Object.assign(this.querycondition, {
                 $or: [
                     {
-                        "content.rewTitle": `/${this.searchForm.value.keyword}/`
+                        "content.rewTitle": {
+                            "$regex": qs
+                        }
                     }, {
-                        "content.rewContent": `/${this.searchForm.value.keyword}/`
+                        "content.rewContent": {
+                            "$regex": qs
+                        }
                     }, {
-                        "content.authorName": `/${this.searchForm.value.keyword}/`
+                        "content.authorName": {
+                            "$regex": qs
+                        }
                     }, {
-                        "content.tranContent": `/${this.searchForm.value.keyword}/`
+                        "content.tranContent": {
+                            "$regex": qs
+                        }
                     }, {
-                        "content.tranContentZh": `/${this.searchForm.value.keyword}/`
+                        "content.tranContentZh": {
+                            "$regex": qs
+                        }
                     }
                 ]
             });
         }
-        console.log(JSON.stringify(querycondition));
-        this.getComplaints(0, 10, querycondition)
+        console.log(JSON.stringify(this.querycondition));
+    }
+
+    search() : void {
+        this.getQueryCondition();
+        if (this.querycondition) {
+            Object.assign(this.querycondition, {"state": this.sid})
+            this.getComplaints(0, 10, this.querycondition);
+        }
     }
 
     ngOnInit() : void {

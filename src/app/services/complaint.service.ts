@@ -15,21 +15,30 @@ export class ComplaintService {
         console.log(sid);
         let searchfind = 'search';
         if (query) {
-            searchfind = 'find'
-        }
-        if (sid) {
-            baseurl = `${this.complaintsUrl}/${searchfind}/${Number(sid)}`;
-
-        } else {
+            searchfind = 'find';
             baseurl = `${this.complaintsUrl}/${searchfind}`;
+        } else {
+            if (sid) {
+                baseurl = `${this.complaintsUrl}/${searchfind}/${Number(sid)}`;
+
+            } else {
+                baseurl = `${this.complaintsUrl}/${searchfind}`;
+            }
         }
-        console.log(query);
+
         console.log(baseurl);
+
         if (query) {
             return new Promise < Complaint[] > ((resolve, reject) => {
+                let body = {
+                    rule: query,
+                    pagestart: pagestart,
+                    pagesize: pagesize
+                };
+                console.log(JSON.stringify(body));
                 this
                     .http
-                    .post(baseurl, query)
+                    .post(baseurl, body)
                     .toPromise()
                     .then(response => {
                         this.complaintList = response.json()as Complaint[];
