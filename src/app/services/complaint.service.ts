@@ -27,8 +27,6 @@ export class ComplaintService {
             }
         }
 
-        console.log(baseurl);
-
         if (query) {
             return new Promise < Complaint[] > ((resolve, reject) => {
                 let body = {
@@ -61,7 +59,6 @@ export class ComplaintService {
 
     getComplaint(id : string) : Promise < Complaint > {
         let baseurl: string = this.complaintsUrl;
-        console.log('url', `${baseurl}rewContent/${id}`);
         return this
             .http
             .get(`${baseurl}rewContent/${id}`)

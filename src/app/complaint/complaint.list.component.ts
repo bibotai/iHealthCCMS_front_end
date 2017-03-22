@@ -100,14 +100,12 @@ export class ComplaintListComponent implements OnInit {
 
     getComplaintsDisplay(complaints : Complaint[]) : ComplaintDisplay[] {
         let complaintsDisplayArr : ComplaintDisplay[] = [];
-        console.log(complaints);
         complaints.forEach((complaint, index) => {
             let complaintDisplay = new ComplaintDisplay();
             complaintDisplay.id = (index + 1).toString();
             complaintDisplay._id = complaint._id;
             complaintDisplay.appname = complaint.appName;
             complaintDisplay.orgin = complaint.orgin;
-            console.log('foreach');
             //complaintDisplay.raw = complaint; state，0未处理,1处理中,2已处理,3已忽略
             let state = '';
             let objButtonShow = {}
@@ -252,7 +250,6 @@ export class ComplaintListComponent implements OnInit {
         }
         if (this.searchForm.value.keyword) {
             let qs = new RegExp(this.searchForm.value.keyword, 'i');
-            console.log(qs);
             Object.assign(this.querycondition, {
                 $or: [
                     {
