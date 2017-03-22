@@ -11,11 +11,13 @@ export class IgnoreDialog implements OnInit {
     selectreason : any;
     data : any;
     reason : string;
+    disableButton : boolean = false;
     ngOnInit() : void {
         this.data = this.dialogRef.componentInstance.data;
     }
 
     ignore() : void {
+        this.disableButton = true;
         this
             .redmineService
             .ignore(this.data._id, this.reason

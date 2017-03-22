@@ -32,6 +32,7 @@ export class SendRedmineDialog implements OnInit {
   layers : Object;
   data : any;
   sendRedmineForm;
+  disableButton : boolean = false;
   ngOnInit() : void {
     this.redmineProjectIds = redmineProjectIds;
     this.issueTags = this
@@ -110,6 +111,7 @@ export class SendRedmineDialog implements OnInit {
   }
 
   sendRedmine() : void {
+    this.disableButton = true;
     this
       .redmineService
       .sendToRedmine(this.sendRedmineForm.value)

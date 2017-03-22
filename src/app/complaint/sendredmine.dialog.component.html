@@ -1,5 +1,5 @@
 <div class="dialog-content">
-  <form [formGroup]="sendRedmineForm">
+  <form (submit)="!disableButton && submit()" [formGroup]="sendRedmineForm">
     <div class="input-full-width">
       <md-select placeholder="跟踪" formControlName="issueTags">
         <md-option *ngFor="let issueTag of issueTags" [value]="issueTag.value">
@@ -48,7 +48,7 @@
   </form>
   <div class="input-full-width">
     <div class="dialog-send-button">
-      <button md-raised-button md-no-ink (click)="sendRedmine()" color='primary' class="md-primary">发送</button>
+      <button md-raised-button md-no-ink (click)="sendRedmine()" [disabled]="disableButton" type="submit" color='primary' class="md-primary">发送</button>
     </div>
   </div>
   <!--<pre>

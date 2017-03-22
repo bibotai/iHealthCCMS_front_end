@@ -7,7 +7,7 @@ import 'rxjs/add/operator/toPromise';
 export class ComplaintService {
     public complaintList : Complaint[];
     public complaint : Complaint;
-    private complaintsUrl = 'http://localhost:3000'; // URL to web api
+    private complaintsUrl = 'http://10.0.0.3:3000'; // URL to web api
 
     constructor(private http : Http) {}
     getComplaints(pagesize : number, pagestart : number, sid : string = null, query = null) : Promise < Complaint[] > {

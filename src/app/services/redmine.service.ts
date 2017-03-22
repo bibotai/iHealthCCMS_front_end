@@ -73,7 +73,7 @@ export class RedmineService {
         return enumsArray;
     };
 
-    private baseApiUrl = 'http://localhost:3000/';
+    private baseApiUrl = 'http://10.0.0.3:3000/';
 
     formatDate = function (date) {
         var y = date.getFullYear();

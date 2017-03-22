@@ -9,8 +9,8 @@
           <div class="inner-list">
             <div class="condition">
               <small>
-                <a href="#" (click)="table.rowDetail.expandAllRows()">展开全部</a> |
-                <a href="#" (click)="table.rowDetail.collapseAllRows()">收起全部</a>
+                <button md-raised-button  (click)="table.rowDetail.expandAllRows()">展开全部</button> |
+                <button md-raised-button (click)="table.rowDetail.collapseAllRows()">收起全部</button>
               </small>
             </div>
             <div class="condition">
@@ -41,63 +41,65 @@
       </div>
     </div>
   </md-card>
-  <ngx-datatable #myTable class="material expandable" [columnMode]="'force'" [loadingIndicator]="loadingIndicator" [headerHeight]="50"
-    [footerHeight]="0" [rowHeight]="60" [rows]="complaintsDisplay">
-    <!-- Row Detail Template -->
-    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
-      <template let-row="row" ngx-datatable-row-detail-template>
-        <div style="padding-left:35px;">
-          <div><strong>详细信息</strong></div>
-          <div *ngIf="row.raw?.content?.rewTitle">主题：{{row.raw?.content?.rewTitle}}</div>
-          <div *ngIf="row.raw?.content?.rewContent">原文：{{row.raw?.content?.rewContent}}</div>
-          <div *ngIf="row.raw?.content?.tranContent">英文翻译：{{row.raw?.content?.tranContent}}</div>
-          <div *ngIf="row.raw?.content?.tranContentZh">中文翻译：{{row.raw?.content?.tranContentZh}}</div>
-          <div *ngIf="row.raw?.content?.star">评星{{row.raw?.content?.star}}</div>
-          <div *ngIf="row.raw?.deviceInfo?.device">手机型号：{{row.raw?.deviceInfo?.device}}</div>
-          <div *ngIf="row.raw?.deviceInfo?.OS">手机系统：{{row.raw?.deviceInfo?.OS}}</div>
-        </div>
-      </template>
-    </ngx-datatable-row-detail>
-    <!-- Column Templates -->
-    <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false">
-      <template let-row="row" ngx-datatable-cell-template>
-        <a href="#" [class.icon-right]="!row.$$expanded" [class.icon-down]="row.$$expanded" title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
-        </a>
-      </template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="编号" prop="id" [flexGrow]="1">
-      <template let-value="value" ngx-datatable-cell-template>
-        {{value}}
-      </template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="主题" prop="subject" [flexGrow]="1">
-      <template let-row="row" ngx-datatable-cell-template>
-        <a [routerLink]="['/complaintdetail', row.raw.orgin,row._id]"> {{row.subject}}</a>
-      </template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="来源" prop="orgin" [flexGrow]="1">
-      <template let-value="value" ngx-datatable-cell-template>
-        {{value}}
-      </template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="应用" prop="appname" [flexGrow]="1">
-      <template let-value="value" ngx-datatable-cell-template>
-        {{value}}
-      </template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="操作" prop="raw" [flexGrow]="1">
-      <template let-value="value" ngx-datatable-cell-template>
-        <button *ngIf="value.isSendShow" color='primary' md-mini-fab md-no-ink (click)="openRedmineDialog(value)" class="md-primary"
-          mdTooltip="发送到redmine"><md-icon>send</md-icon></button>
-        <button *ngIf="value.isIgnoreShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,3)" class="md-primary"
-          mdTooltip="忽略"><md-icon>delete</md-icon></button>
-        <button *ngIf="value.isFollowShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,4)" class="md-primary"
-          mdTooltip="需跟进"><md-icon>help</md-icon></button>
-        <button *ngIf="value.isReductionShow" color='primary' md-mini-fab md-no-ink (click)="reductionIgnore(value)" class="md-primary"
-          mdTooltip="还原"><md-icon>restore</md-icon></button>
-      </template>
-    </ngx-datatable-column>
-  </ngx-datatable>
+  <div class="datatable">
+    <ngx-datatable #myTable class="material expandable" [columnMode]="'force'" [loadingIndicator]="loadingIndicator" [headerHeight]="50"
+      [footerHeight]="0" [rowHeight]="60" [rows]="complaintsDisplay">
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="150" #myDetailRow (toggle)="onDetailToggle($event)">
+        <template let-row="row" ngx-datatable-row-detail-template>
+          <div style="padding-left:35px;">
+            <div><strong>详细信息</strong></div>
+            <div *ngIf="row.raw?.content?.rewTitle">主题：{{row.raw?.content?.rewTitle}}</div>
+            <div *ngIf="row.raw?.content?.rewContent">原文：{{row.raw?.content?.rewContent}}</div>
+            <div *ngIf="row.raw?.content?.tranContent">英文翻译：{{row.raw?.content?.tranContent}}</div>
+            <div *ngIf="row.raw?.content?.tranContentZh">中文翻译：{{row.raw?.content?.tranContentZh}}</div>
+            <div *ngIf="row.raw?.content?.star">评星{{row.raw?.content?.star}}</div>
+            <div *ngIf="row.raw?.deviceInfo?.device">手机型号：{{row.raw?.deviceInfo?.device}}</div>
+            <div *ngIf="row.raw?.deviceInfo?.OS">手机系统：{{row.raw?.deviceInfo?.OS}}</div>
+          </div>
+        </template>
+      </ngx-datatable-row-detail>
+      <!-- Column Templates -->
+      <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false">
+        <template let-row="row" ngx-datatable-cell-template>
+          <a href="#" [class.icon-right]="!row.$$expanded" [class.icon-down]="row.$$expanded" title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+          </a>
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="编号" prop="id" [flexGrow]="1">
+        <template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="主题" prop="subject" [flexGrow]="1">
+        <template let-row="row" ngx-datatable-cell-template>
+          <a [routerLink]="['/complaintdetail', row.raw.orgin,row._id]"> {{row.subject}}</a>
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="来源" prop="orgin" [flexGrow]="1">
+        <template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="应用" prop="appname" [flexGrow]="1">
+        <template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="操作" prop="raw" [flexGrow]="1">
+        <template let-value="value" ngx-datatable-cell-template>
+          <button *ngIf="value.isSendShow" color='primary' md-mini-fab md-no-ink (click)="openRedmineDialog(value)" class="md-primary"
+            mdTooltip="发送到redmine"><md-icon>send</md-icon></button>
+          <button *ngIf="value.isIgnoreShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,3)" class="md-primary"
+            mdTooltip="忽略"><md-icon>delete</md-icon></button>
+          <button *ngIf="value.isFollowShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,4)" class="md-primary"
+            mdTooltip="需跟进"><md-icon>help</md-icon></button>
+          <button *ngIf="value.isReductionShow" color='primary' md-mini-fab md-no-ink (click)="reductionIgnore(value)" class="md-primary"
+            mdTooltip="还原"><md-icon>restore</md-icon></button>
+        </template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
   <div class="list-card-content">
     <div class="list-pagebutton">
       <button class="list-button-pre" color='primary' (click)='onPageUp()' md-mini-fab><md-icon>arrow_back</md-icon></button>

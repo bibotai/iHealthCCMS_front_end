@@ -78,6 +78,16 @@
       text-decoration: none;
       color: black;
     }
+    
+    a:visited {
+      text-decoration: none;
+      color: black;
+    }
+    
+    .datatable a:visited {
+      text-decoration: none;
+      color: darkslateblue;
+    }
     /*解决select input不在一条水平线的问题*/
     
     md-input-container .mat-input-wrapper {
