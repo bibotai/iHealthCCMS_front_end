@@ -3,6 +3,7 @@ import {redmineEnums} from '../models/enums/redmine'
 import {Headers, Http} from '@angular/http';
 import {Redmine} from '../models/redmine';
 import 'rxjs/add/operator/toPromise';
+import {baseApiUrl} from '../config/app.config'
 class SelectObject {
     value : string;
     viewValue : string;
@@ -73,7 +74,7 @@ export class RedmineService {
         return enumsArray;
     };
 
-    private baseApiUrl = 'http://10.0.0.3:3000/';
+    private baseApiUrl = baseApiUrl;
 
     formatDate = function (date) {
         var y = date.getFullYear();

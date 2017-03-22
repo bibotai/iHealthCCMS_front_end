@@ -3,11 +3,12 @@ import {Injectable} from '@angular/core';
 import {Complaint} from '../models/complaint';
 import {Headers, Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+import {baseApiUrl} from '../config/app.config'
 @Injectable()
 export class ComplaintService {
     public complaintList : Complaint[];
     public complaint : Complaint;
-    private complaintsUrl = 'http://10.0.0.3:3000'; // URL to web api
+    private complaintsUrl = baseApiUrl; // URL to web api
 
     constructor(private http : Http) {}
     getComplaints(pagesize : number, pagestart : number, sid : string = null, query = null) : Promise < Complaint[] > {
@@ -16,13 +17,13 @@ export class ComplaintService {
         let searchfind = 'search';
         if (query) {
             searchfind = 'find';
-            baseurl = `${this.complaintsUrl}/${searchfind}`;
+            baseurl = `${this.complaintsUrl}${searchfind}`;
         } else {
             if (sid) {
-                baseurl = `${this.complaintsUrl}/${searchfind}/${Number(sid)}`;
+                baseurl = `${this.complaintsUrl}${searchfind}/${Number(sid)}`;
 
             } else {
-                baseurl = `${this.complaintsUrl}/${searchfind}`;
+                baseurl = `${this.complaintsUrl}${searchfind}`;
             }
         }
 
@@ -60,10 +61,10 @@ export class ComplaintService {
 
     getComplaint(id : string) : Promise < Complaint > {
         let baseurl: string = this.complaintsUrl;
-        console.log('url', `${baseurl}/rewContent/${id}`);
+        console.log('url', `${baseurl}rewContent/${id}`);
         return this
             .http
-            .get(`${baseurl}/rewContent/${id}`)
+            .get(`${baseurl}rewContent/${id}`)
             .toPromise()
             .then(response => this.complaint = response.json()as Complaint)
             .catch(this.handleError);
