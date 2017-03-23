@@ -101,7 +101,11 @@ export class RedmineService {
         const issue = {
             "issue": {
                 "project_id": objFrom.projectId,
-                "subject": objFrom.subject,
+                "subject": objFrom.subject.length > 30
+                    ? objFrom
+                        .subject
+                        .substr(0, 30) + '...'
+                    : objFrom.subject,
                 "priority_id": 2,
                 "status_id": 1,
                 "author_id": 183,

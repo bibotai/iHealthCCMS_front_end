@@ -31,6 +31,7 @@ export class ComplaintDetail implements OnInit {
                     projectid = redmineProjectIds.fda;
                 }
                 console.log('projectid', projectid);
+                console.log('redmineService.getRedmineState', new Date());
                 this
                     .redmineService
                     .getRedmineState(projectid)
