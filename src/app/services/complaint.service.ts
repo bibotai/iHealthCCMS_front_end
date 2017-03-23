@@ -11,50 +11,30 @@ export class ComplaintService {
     private complaintsUrl = baseApiUrl; // URL to web api
 
     constructor(private http : Http) {}
-    getComplaints(pagesize : number, pagestart : number, sid : string = null, query = null) : Promise < Complaint[] > {
+    getComplaints(pagesize : number, pagestart : number, query = null) : Promise < Complaint[] > {
         let baseurl: string = this.complaintsUrl;
-        console.log(sid);
-        let searchfind = 'search';
-        if (query) {
-            searchfind = 'find';
-            baseurl = `${this.complaintsUrl}${searchfind}`;
-        } else {
-            if (sid) {
-                baseurl = `${this.complaintsUrl}${searchfind}/${Number(sid)}`;
+        baseurl = `${this.complaintsUrl}find`;
 
-            } else {
-                baseurl = `${this.complaintsUrl}${searchfind}`;
-            }
-        }
-
-        if (query) {
-            return new Promise < Complaint[] > ((resolve, reject) => {
-                let body = {
-                    rule: query,
-                    pagestart: pagestart,
-                    pagesize: pagesize
-                };
-                console.log(JSON.stringify(body));
-                this
-                    .http
-                    .post(baseurl, body)
-                    .toPromise()
-                    .then(response => {
-                        this.complaintList = response.json()as Complaint[];
-                        resolve(this.complaintList);
-                        // console.log(response); console.log(this.complaintList);
-                    })
-                    .catch(this.handleError);
-            })
-
-        } else {
-            return this
+        console.log(query);
+        return new Promise < Complaint[] > ((resolve, reject) => {
+            let body = {
+                rule: query,
+                pagestart: pagestart,
+                pagesize: pagesize
+            };
+            console.log(JSON.stringify(body));
+            this
                 .http
-                .get(`${baseurl}?pagesize=${pagesize}&pagestart=${pagestart}`)
+                .post(baseurl, body)
                 .toPromise()
-                .then(response => this.complaintList = response.json()as Complaint[])
+                .then(response => {
+                    this.complaintList = response.json()as Complaint[];
+                    resolve(this.complaintList);
+                    // console.log(response); console.log(this.complaintList);
+                })
                 .catch(this.handleError);
-        }
+        })
+
     }
 
     getComplaint(id : string) : Promise < Complaint > {

@@ -46,7 +46,7 @@ export class ComplaintListComponent implements OnInit {
     getComplaints(offset, limit, query = null) : void {
         this
             .complaintService
-            .getComplaints(limit, offset + 1, this.sid, query)
+            .getComplaints(limit, offset + 1, query)
             .then(complaints => this.complaints = complaints)
             .then(complaints => {
                 console.log(complaints);
@@ -71,10 +71,7 @@ export class ComplaintListComponent implements OnInit {
             this.offset++;
             this.page++;
             this.getQueryCondition();
-            if (this.querycondition) {
-                Object.assign(this.querycondition, {"state": this.sid})
-                this.getComplaints(this.offset, this.limit, this.querycondition);
-            }
+            this.getComplaints(this.offset, this.limit, this.querycondition);
 
             this
                 .location
@@ -88,10 +85,8 @@ export class ComplaintListComponent implements OnInit {
             this.offset--;
             this.page--;
             this.getQueryCondition();
-            if (this.querycondition) {
-                Object.assign(this.querycondition, {"state": this.sid})
-                this.getComplaints(this.offset, this.limit, this.querycondition);
-            }
+            this.getQueryCondition();
+            this.getComplaints(this.offset, this.limit, this.querycondition);
             this
                 .location
                 .replaceState(`/complaintlist/${this.action}/${this.page}`);
@@ -242,7 +237,11 @@ export class ComplaintListComponent implements OnInit {
     }
 
     getQueryCondition() : void {
-        if(this.searchForm.value.orgin) {
+        this.querycondition = {};
+        if (this.sid) {
+            Object.assign(this.querycondition, {"state": this.sid});
+        }
+        if (this.searchForm.value.orgin) {
             Object.assign(this.querycondition, {"orgin": this.searchForm.value.orgin});
         }
         if (this.searchForm.value.app) {
@@ -281,10 +280,14 @@ export class ComplaintListComponent implements OnInit {
 
     search() : void {
         this.getQueryCondition();
-        if (this.querycondition) {
-            Object.assign(this.querycondition, {"state": this.sid})
-            this.getComplaints(0, 10, this.querycondition);
-        }
+
+        this.getComplaints(0, 10, this.querycondition);
+        this
+            .location
+            .replaceState(`/complaintlist/${this.action}/1`);
+    }
+    clearSearch() : void {
+        this.searchForm.value.app = '';
     }
 
     ngOnInit() : void {
@@ -296,16 +299,33 @@ export class ComplaintListComponent implements OnInit {
                 this.page = Number(params['page']);
                 this.getTitleSid(params['action']);
                 this.offset = this.page - 1;
-                this.getComplaints(this.offset, this.limit);
+                this.getQueryCondition();
+                this.getComplaints(this.offset, this.limit, this.querycondition);
             });
 
         //init search form
-        this.orgins = this
+        let objSelectObject: SelectObject = new SelectObject();
+
+        let orginsarray: Array < SelectObject >= [];
+        objSelectObject.value = '';
+        objSelectObject.viewValue = '全部';
+        orginsarray.push(objSelectObject);
+        this
             .redmineService
-            .getRedmineEnumsArraybyName('orgin');
-        this.apps = this
+            .getRedmineEnumsArraybyName('orgin')
+            .forEach(item => {
+                orginsarray.push(item);
+            });
+        this.orgins = orginsarray;
+        let appsarray: Array < SelectObject >= [];
+        appsarray.push(objSelectObject);
+        this
             .redmineService
-            .getRedmineEnumsArraybyName('app');
+            .getRedmineEnumsArraybyName('app')
+            .forEach(item => {
+                appsarray.push(item);
+            });
+        this.apps = appsarray;
     }
 
     toggleExpandRow(row) {
@@ -318,4 +338,8 @@ export class ComplaintListComponent implements OnInit {
     onDetailToggle(event) {
         console.log('Detail Toggled', event);
     }
+}
+class SelectObject {
+    value : string;
+    viewValue : string;
 }
