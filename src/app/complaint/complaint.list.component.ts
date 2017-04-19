@@ -6,7 +6,7 @@ import {ComplaintDisplay} from '../models/complaintdisplay';
 import {ActivatedRoute, Params} from '@angular/router';
 import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
 import {Location} from '@angular/common';
-
+import {redmineProjectIds} from '../config/app.config'
 import {RedmineService} from '../services/redmine.service';
 import 'rxjs/add/operator/map';
 //switchMap运算符
@@ -42,8 +42,10 @@ export class ComplaintListComponent implements OnInit {
     action : string;
     page : number = 0;
     querycondition : Object = {};
+    spinnerShow : boolean = false;
 
     getComplaints(offset, limit, query = null) : void {
+        this.spinnerShow = true;
         this
             .complaintService
             .getComplaints(limit, offset + 1, query)
@@ -59,6 +61,7 @@ export class ComplaintListComponent implements OnInit {
                 } else {
                     this.isOverflow = false;
                 }
+                this.spinnerShow = false;
 
             });
 
@@ -286,8 +289,12 @@ export class ComplaintListComponent implements OnInit {
             .location
             .replaceState(`/complaintlist/${this.action}/1`);
     }
-    clearSearch() : void {
-        this.searchForm.value.app = '';
+    refreshRedmine() : void {
+        this.spinnerShow = true;
+        this
+            .redmineService
+            .getRedmineState(redmineProjectIds.appstore)
+            .then(data => this.redmineService.getRedmineState(redmineProjectIds.fda).then(data => this.redmineService.getRedmineState(redmineProjectIds.googleplay).then(data => this.spinnerShow = false)));
     }
 
     ngOnInit() : void {

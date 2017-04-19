@@ -31,22 +31,16 @@ export class ComplaintDetail implements OnInit {
                     projectid = redmineProjectIds.fda;
                 }
                 console.log('projectid', projectid);
-                console.log('redmineService.getRedmineState', new Date());
+
                 this
-                    .redmineService
-                    .getRedmineState(projectid)
+                    .complaintService
+                    .getComplaint(params['id'])
                     .then(data => {
-                        this
-                            .complaintService
-                            .getComplaint(params['id'])
-                            .then(data => {
-                                this.complaint = data;
-                                console.log(this.complaint);
-                            });
+                        this.complaint = data;
+                        console.log(this.complaint);
+                    });
 
-                    })
-
-            });
+            })
 
     }
 }

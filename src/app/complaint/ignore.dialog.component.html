@@ -10,7 +10,10 @@
     </md-radio-group>
     <div class="input-full-width" style="width: 100%">
       <div class="dialog-send-button" style="float: right;">
-        <button md-raised-button md-no-ink (click)="ignore()" [disabled]="disableButton" type="submit" color='primary' class="md-primary">忽略</button>
+        <button *ngIf="isIgnore" md-raised-button md-no-ink (click)="ignore()" [disabled]="disableButton" type="submit" color='primary'
+          class="md-primary">忽略</button>
+        <button *ngIf="isFollowUp" md-raised-button md-no-ink (click)="ignore()" [disabled]="disableButton" type="submit" color='primary'
+          class="md-primary">需跟进</button>
       </div>
     </div>
   </form>

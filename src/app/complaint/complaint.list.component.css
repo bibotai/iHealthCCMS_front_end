@@ -94,3 +94,10 @@
       min-height: 0;
       margin-top: 7px;
     }
+    
+    md-spinner {
+      float: left;
+      width: 24px;
+      height: 24px;
+      margin: 5px 10px 0px 0px;
+    }
