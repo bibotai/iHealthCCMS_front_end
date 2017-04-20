@@ -22,15 +22,6 @@ export class ComplaintDetail implements OnInit {
             .subscribe((params : Params) => {
                 console.log('param:id', params['id']);
                 console.log('param:type', params['type']);
-                let projectid : number;
-                if (params['type'] == 'googlePlay') {
-                    projectid = redmineProjectIds.googleplay;
-                } else if (params['type'] == 'Itunes Connect') {
-                    projectid = redmineProjectIds.appstore;
-                } else {
-                    projectid = redmineProjectIds.fda;
-                }
-                console.log('projectid', projectid);
 
                 this
                     .complaintService

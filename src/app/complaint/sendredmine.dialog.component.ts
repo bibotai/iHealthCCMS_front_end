@@ -34,7 +34,9 @@ export class SendRedmineDialog implements OnInit {
   sendRedmineForm;
   disableButton : boolean = false;
   ngOnInit() : void {
-    this.redmineProjectIds = redmineProjectIds;
+    this.redmineProjectIds = this
+      .redmineService
+      .getRedmineEnumsArraybyName('redmineProjectIds');
     this.issueTags = this
       .redmineService
       .getRedmineEnumsArraybyName('issueTags');
@@ -55,14 +57,21 @@ export class SendRedmineDialog implements OnInit {
     src = '';
     if (this.data.orgin == "Itunes Connect") {
       src = 'Apple Store';
-      projectid = this.redmineProjectIds.appstore;
     } else if (this.data.orgin == "googlePlay") {
       src = 'Google Play';
-      projectid = this.redmineProjectIds.googleplay;
     } else {
       src = 'FDA';
-      projectid = this.redmineProjectIds.fda;
     }
+    //项目
+    if (src == "Apple Store" && this.data.appName == "GlucoSmart") 
+      projectid = 1522;
+    if (src == "Google Play" && this.data.appName == "GlucoSmart") 
+      projectid = 1494;
+    if (src == "Apple Store" && this.data.appName == "MyVitals") 
+      projectid = 1545;
+    if (src == "Google Play" && this.data.appName == "MyVitals") 
+      projectid = 1546;
+    
     //描述
     let description = '';
     if (this.data.content.rewContent) {

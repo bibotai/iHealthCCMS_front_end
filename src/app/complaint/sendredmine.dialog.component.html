@@ -1,9 +1,14 @@
 <div class="dialog-content">
   <form (submit)="!disableButton && submit()" [formGroup]="sendRedmineForm">
     <div class="input-full-width">
-      <md-select placeholder="跟踪" formControlName="issueTags">
+      <md-select class="input-half-width" placeholder="跟踪" formControlName="issueTags">
         <md-option *ngFor="let issueTag of issueTags" [value]="issueTag.value">
           {{issueTag.viewValue}}
+        </md-option>
+      </md-select>
+      <md-select class="input-half-width" placeholder="项目" formControlName="projectId">
+        <md-option *ngFor="let redmineProjectId of redmineProjectIds" [value]="redmineProjectId.value">
+          {{redmineProjectId.viewValue}}
         </md-option>
       </md-select>
     </div>

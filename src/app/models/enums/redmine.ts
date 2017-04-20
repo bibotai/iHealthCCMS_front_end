@@ -1,4 +1,11 @@
 export const redmineEnums = {
+    redmineProjectIds: {
+        "iGlucoGooglePlay": 1494,
+        "iGlucoAppStore": 1522,
+        "myVitalsGooglePlay": 1546,
+        "myVitalsAppStore": 1545,
+        "FDA": 1523
+    },
     issueStatus: {
         "code_optimization": 25,
         "new": 1,

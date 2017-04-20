@@ -291,10 +291,11 @@ export class ComplaintListComponent implements OnInit {
     }
     refreshRedmine() : void {
         this.spinnerShow = true;
-        this
-            .redmineService
-            .getRedmineState(redmineProjectIds.appstore)
-            .then(data => this.redmineService.getRedmineState(redmineProjectIds.fda).then(data => this.redmineService.getRedmineState(redmineProjectIds.googleplay).then(data => this.spinnerShow = false)));
+        // this     .redmineService     .getRedmineState(redmineProjectIds.appstore)
+        // .then(data =>
+        // this.redmineService.getRedmineState(redmineProjectIds.fda).then(data =>
+        // this.redmineService.getRedmineState(redmineProjectIds.googleplay).then(data =>
+        // this.spinnerShow = false)));
     }
 
     ngOnInit() : void {
