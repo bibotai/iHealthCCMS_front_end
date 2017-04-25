@@ -1,6 +1,7 @@
 import {Component, OnInit, Optional, ViewEncapsulation, ViewChild} from '@angular/core';
 import {MdDialog, MdDialogRef, MdSnackBar} from '@angular/material';
 import {ComplaintService} from '../services/complaint.service';
+import {ComplaintListService} from '../services/complaint.list.service';
 import {Complaint} from '../models/complaint';
 import {ComplaintDisplay} from '../models/complaintdisplay';
 import {ActivatedRoute, Params} from '@angular/router';
@@ -17,7 +18,7 @@ import {IgnoreDialog} from './ignore.dialog.component';
 @Component({selector: 'complaintlist', templateUrl: './complaint.list.component.html', encapsulation: ViewEncapsulation.None, styleUrls: ['./complaint.list.component.css']})
 
 export class ComplaintListComponent implements OnInit {
-    constructor(private complaintService : ComplaintService, private redmineService : RedmineService, private route : ActivatedRoute, public dialog : MdDialog, private formbuilder : FormBuilder, private location : Location) {
+    constructor(private complaintService : ComplaintService, private complaintListService : ComplaintListService, private redmineService : RedmineService, private route : ActivatedRoute, public dialog : MdDialog, private formbuilder : FormBuilder, private location : Location) {
 
         this.searchForm = this
             .formbuilder
@@ -52,7 +53,9 @@ export class ComplaintListComponent implements OnInit {
             .then(complaints => this.complaints = complaints)
             .then(complaints => {
                 console.log(complaints);
-                this.complaintsDisplay = this.getComplaintsDisplay(complaints);
+                this.complaintsDisplay = this
+                    .complaintListService
+                    .getComplaintsDisplay(complaints);
                 this.loadingIndicator = false;
                 // console.log(complaints);
                 if (complaints.length == 0) {
@@ -75,10 +78,7 @@ export class ComplaintListComponent implements OnInit {
             this.page++;
             this.getQueryCondition();
             this.getComplaints(this.offset, this.limit, this.querycondition);
-
-            this
-                .location
-                .replaceState(`/complaintlist/${this.action}/${this.page}`);
+            this.replaceURL();
 
         }
     }
@@ -88,111 +88,9 @@ export class ComplaintListComponent implements OnInit {
             this.offset--;
             this.page--;
             this.getQueryCondition();
-            this.getQueryCondition();
             this.getComplaints(this.offset, this.limit, this.querycondition);
-            this
-                .location
-                .replaceState(`/complaintlist/${this.action}/${this.page}`);
+            this.replaceURL();
         }
-    }
-
-    getComplaintsDisplay(complaints : Complaint[]) : ComplaintDisplay[] {
-        let complaintsDisplayArr : ComplaintDisplay[] = [];
-        complaints.forEach((complaint, index) => {
-            let complaintDisplay = new ComplaintDisplay();
-            complaintDisplay.id = (index + 1).toString();
-            complaintDisplay._id = complaint._id;
-            complaintDisplay.appname = complaint.appName;
-            complaintDisplay.orgin = complaint.orgin;
-            //complaintDisplay.raw = complaint; state，0未处理,1处理中,2已处理,3已忽略
-            let state = '';
-            let objButtonShow = {}
-            switch (complaint.state) {
-                case 0:
-                    state = '未处理';
-                    objButtonShow = {
-                        isSendShow: true,
-                        isIgnoreShow: true,
-                        isFollowShow: true
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-                    // console.log(complaintDisplay.raw);  {     isSendShow: true,     isIgnoreShow:
-                    // false,     ...complaint }
-                    break;
-                case 1:
-                    state = '处理中';
-
-                    objButtonShow = {
-                        isSendShow: false,
-                        isIgnoreShow: false
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-                    // complaintDisplay.raw = {     ...complaint,     isSendShow: false,
-                    // isIgnoreShow: false }
-                    break;
-                case 2:
-                    state = '已处理';
-                    objButtonShow = {
-                        isSendShow: false,
-                        isIgnoreShow: false
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-                    break;
-                case 3:
-                    state = '已忽略';
-                    objButtonShow = {
-                        isSendShow: false,
-                        isIgnoreShow: false,
-                        isReductionShow: true
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-                case 4:
-                    state = '需跟进';
-                    objButtonShow = {
-                        isSendShow: false,
-                        isIgnoreShow: false,
-                        isReductionShow: true
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-
-            }
-            complaintDisplay.state = state;
-            let subject : string = complaint.content['rewTitle'];
-            if (!complaint.content['rewTitle']) 
-                subject = complaint.content['rewContent'];
-            complaintDisplay.subject = subject.length > 18
-                ? subject.substr(0, 18) + '...'
-                : subject;
-
-            complaintsDisplayArr.push(complaintDisplay);
-        });
-        // console.log(complaintsDisplayArr);
-        return complaintsDisplayArr;
-
-    }
-
-    getTitleSid(action) : void {
-        if(action == 'all') {
-            this.title = '全部列表';
-            this.sid = '';
-        } else if (action == 'notprocessed') {
-            this.title = '未处理列表';
-            this.sid = '0';
-
-        } else if (action == 'processed') {
-            this.title = '已处理列表';
-            this.sid = '2';
-        } else if (action == 'processing') {
-            this.title = '处理中列表';
-            this.sid = '1';
-        } else if (action == 'ignored') {
-            this.title = '已忽略列表';
-            this.sid = '3';
-        } else if (action == 'followup') {
-            this.title = '需跟进列表';
-            this.sid = '4';
-        }
-
     }
 
     openRedmineDialog(raw) : void {
@@ -285,17 +183,32 @@ export class ComplaintListComponent implements OnInit {
         this.getQueryCondition();
 
         this.getComplaints(0, 10, this.querycondition);
+        console.log(this.querycondition);
+        this.replaceURL(true);
+    };
+
+    replaceURL(isSearch : boolean = false) : void {
+        if(isSearch) {
+            this.page = 1;
+        }
+        let showUrl = `/complaintlist/${this.action}/${this.page}`;
+        if (this.querycondition['orgin']) {
+            showUrl += `/${this.querycondition['orgin']}`;
+        }
+        if (this.querycondition['appName']) {
+            showUrl += `/${this.querycondition['appName']}`;
+        }
         this
             .location
-            .replaceState(`/complaintlist/${this.action}/1`);
+            .replaceState(showUrl);
     }
     refreshRedmine() : void {
         this.spinnerShow = true;
         // this     .redmineService     .getRedmineState(redmineProjectIds.appstore)
         // .then(data =>
         // this.redmineService.getRedmineState(redmineProjectIds.fda).then(data =>
-        // this.redmineService.getRedmineState(redmineProjectIds.googleplay).then(data =>
-        // this.spinnerShow = false)));
+        // this.redmineService.getRedmineState(redmineProjectIds.googleplay).then(data
+        // => this.spinnerShow = false)));
     }
 
     ngOnInit() : void {
@@ -305,8 +218,26 @@ export class ComplaintListComponent implements OnInit {
             .subscribe(params => {
                 this.action = params['action'];
                 this.page = Number(params['page']);
-                this.getTitleSid(params['action']);
+                let titleSid = this
+                    .complaintListService
+                    .getTitleSid(params['action']);
+                this.title = titleSid['title'];
+                this.sid = titleSid['sid'];
+
                 this.offset = this.page - 1;
+                let orgin = '';
+                let appname = '';
+                //初始化查询form
+                if (params['orgin']) {
+                    orgin = params['orgin'];
+                }
+                if (params['appname']) {
+                    appname = params['appname'];
+                }
+                this.searchForm = this
+                    .formbuilder
+                    .group({orgin: orgin, app: appname});
+
                 this.getQueryCondition();
                 this.getComplaints(this.offset, this.limit, this.querycondition);
             });

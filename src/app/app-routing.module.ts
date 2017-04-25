@@ -12,6 +12,9 @@ const routes : Routes = [
         path: 'complaintlist/:action/:page',
         component: ComplaintListComponent
     }, {
+        path: 'complaintlist/:action/:page/:orgin/:appname',
+        component: ComplaintListComponent
+    }, {
         path: 'complaintdetail/:type/:id',
         component: ComplaintDetail
     }

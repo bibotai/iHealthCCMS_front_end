@@ -12,6 +12,7 @@ import {SendRedmineDialog} from './complaint/sendredmine.dialog.component';
 import {IgnoreDialog} from './complaint/ignore.dialog.component'
 import {ComplaintDetail} from './complaint/complaint.detail.component'
 import {ComplaintService} from './services/complaint.service';
+import {ComplaintListService} from './services/complaint.list.service';
 import {RedmineService} from './services/redmine.service'
 //导入路由模块
 import {AppRoutingModule} from './app-routing.module';
@@ -37,6 +38,7 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
   ],
   providers: [
     ComplaintService,
+    ComplaintListService,
     RedmineService, {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
