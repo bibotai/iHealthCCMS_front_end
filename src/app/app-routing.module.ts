@@ -6,10 +6,10 @@ import {ComplaintDetail} from './complaint/complaint.detail.component'
 const routes : Routes = [
     {
         path: '',
-        redirectTo: '/complaintlist/notprocessed/1',
+        redirectTo: '/complaintlist/notprocessed?page=1',
         pathMatch: 'full'
     }, {
-        path: 'complaintlist/:action/:page',
+        path: 'complaintlist/:action',
         component: ComplaintListComponent
     }, {
         path: 'complaintlist/:action/:page/:orgin/:appname',

@@ -4,7 +4,7 @@ import {ComplaintService} from '../services/complaint.service';
 import {ComplaintListService} from '../services/complaint.list.service';
 import {Complaint} from '../models/complaint';
 import {ComplaintDisplay} from '../models/complaintdisplay';
-import {ActivatedRoute, Params} from '@angular/router';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
 import {Location} from '@angular/common';
 import {redmineProjectIds} from '../config/app.config'
@@ -18,7 +18,7 @@ import {IgnoreDialog} from './ignore.dialog.component';
 @Component({selector: 'complaintlist', templateUrl: './complaint.list.component.html', encapsulation: ViewEncapsulation.None, styleUrls: ['./complaint.list.component.css']})
 
 export class ComplaintListComponent implements OnInit {
-    constructor(private complaintService : ComplaintService, private complaintListService : ComplaintListService, private redmineService : RedmineService, private route : ActivatedRoute, public dialog : MdDialog, private formbuilder : FormBuilder, private location : Location) {
+    constructor(private complaintService : ComplaintService, private complaintListService : ComplaintListService, private redmineService : RedmineService, private route : ActivatedRoute, private router : Router, public dialog : MdDialog, private formbuilder : FormBuilder, private location : Location) {
 
         this.searchForm = this
             .formbuilder
@@ -191,16 +191,20 @@ export class ComplaintListComponent implements OnInit {
         if(isSearch) {
             this.page = 1;
         }
-        let showUrl = `/complaintlist/${this.action}/${this.page}`;
+        let queryParams = {
+            page: this.page
+        };
+
         if (this.querycondition['orgin']) {
-            showUrl += `/${this.querycondition['orgin']}`;
+            Object.assign(queryParams, {"orgin": this.querycondition['orgin']});
         }
         if (this.querycondition['appName']) {
-            showUrl += `/${this.querycondition['appName']}`;
+            Object.assign(queryParams, {"appname": this.querycondition['appName']});
         }
         this
-            .location
-            .replaceState(showUrl);
+            .router
+            .navigate([`/complaintlist/${this.action}`], {queryParams});
+        // this     .location     .replaceState(showUrl);
     }
     refreshRedmine() : void {
         this.spinnerShow = true;
@@ -212,18 +216,26 @@ export class ComplaintListComponent implements OnInit {
     }
 
     ngOnInit() : void {
+
         this
             .route
             .params
             .subscribe(params => {
                 this.action = params['action'];
-                this.page = Number(params['page']);
+
                 let titleSid = this
                     .complaintListService
                     .getTitleSid(params['action']);
                 this.title = titleSid['title'];
                 this.sid = titleSid['sid'];
 
+            });
+
+        this
+            .route
+            .queryParams
+            .subscribe(params => {
+                this.page = Number(params['page']);
                 this.offset = this.page - 1;
                 let orgin = '';
                 let appname = '';
