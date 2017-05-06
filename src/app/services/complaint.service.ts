@@ -14,15 +14,12 @@ export class ComplaintService {
     getComplaints(pagesize : number, pagestart : number, query = null) : Promise < Complaint[] > {
         let baseurl: string = this.complaintsUrl;
         baseurl = `${this.complaintsUrl}find`;
-
-        console.log(query);
         return new Promise < Complaint[] > ((resolve, reject) => {
             let body = {
                 rule: query,
                 pagestart: pagestart,
                 pagesize: pagesize
             };
-            console.log(JSON.stringify(body));
             this
                 .http
                 .post(baseurl, body)

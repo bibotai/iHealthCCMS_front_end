@@ -16,56 +16,8 @@ export class ComplaintListService {
             complaintDisplay.orgin = complaint.orgin;
             //complaintDisplay.raw = complaint; state，0未处理,1处理中,2已处理,3已忽略
             let state = '';
-            let objButtonShow = {}
-            switch (complaint.state) {
-                case 0:
-                    state = '未处理';
-                    objButtonShow = {
-                        isSendShow: true,
-                        isIgnoreShow: true,
-                        isFollowShow: true
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-                    // console.log(complaintDisplay.raw);  {     isSendShow: true,     isIgnoreShow:
-                    // false,     ...complaint }
-                    break;
-                case 1:
-                    state = '处理中';
-
-                    objButtonShow = {
-                        isSendShow: false,
-                        isIgnoreShow: false
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-                    // complaintDisplay.raw = {     ...complaint,     isSendShow: false,
-                    // isIgnoreShow: false }
-                    break;
-                case 2:
-                    state = '已处理';
-                    objButtonShow = {
-                        isSendShow: false,
-                        isIgnoreShow: false
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-                    break;
-                case 3:
-                    state = '已忽略';
-                    objButtonShow = {
-                        isSendShow: false,
-                        isIgnoreShow: false,
-                        isReductionShow: true
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-                case 4:
-                    state = '需跟进';
-                    objButtonShow = {
-                        isSendShow: false,
-                        isIgnoreShow: false,
-                        isReductionShow: true
-                    }
-                    complaintDisplay.raw = Object.assign(complaint, objButtonShow);
-
-            }
+            let objButtonShow = this.decideButtonShow(complaint.state);
+            complaintDisplay.raw = Object.assign(complaint, objButtonShow);
             complaintDisplay.state = state;
             let subject : string = complaint.content['rewTitle'];
             if (!complaint.content['rewTitle']) 
@@ -80,7 +32,56 @@ export class ComplaintListService {
         return complaintsDisplayArr;
 
     }
-    getTitleSid(action) : object {
+    decideButtonShow(state) : any {
+        let objButtonShow = {}
+        switch (state) {
+            case 0:
+                state = '未处理';
+                objButtonShow = {
+                    isSendShow: true,
+                    isIgnoreShow: true,
+                    isFollowShow: true
+                }
+                // complaintDisplay.raw = Object.assign(complaint, objButtonShow);
+                break;
+            case 1:
+                state = '处理中';
+
+                objButtonShow = {
+                    isSendShow: false,
+                    isIgnoreShow: false
+                }
+
+                break;
+            case 2:
+                state = '已处理';
+                objButtonShow = {
+                    isSendShow: false,
+                    isIgnoreShow: false
+                }
+
+                break;
+            case 3:
+                state = '已忽略';
+                objButtonShow = {
+                    isSendShow: false,
+                    isIgnoreShow: false,
+                    isReductionShow: true
+                }
+
+            case 4:
+                state = '需跟进';
+                objButtonShow = {
+                    isSendShow: false,
+                    isIgnoreShow: false,
+                    isReductionShow: true
+                }
+
+        }
+        return objButtonShow;
+    }
+
+    getTitleSid(action) : any {
         let titleSid = {
             title: '',
             sid: ''

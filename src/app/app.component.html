@@ -12,22 +12,22 @@
       <div class="app-sidenav-content">
         <ul>
           <li>
-            <a class="nav-button" md-button routerLinkActive="active" [routerLink]="['/complaintlist','all',1]">全部列表</a>
+            <a class="nav-button" md-button routerLinkActive="active" [routerLink]="['/complaintlist','all']" [queryParams]="{ page: 1 }">全部列表</a>
           </li>
           <li>
-            <a class="nav-button" md-button routerLinkActive="active" [routerLink]="['/complaintlist','notprocessed',1]">未处理列表</a>
+            <a class="nav-button" md-button routerLinkActive="active" [routerLink]="['/complaintlist','notprocessed']" [queryParams]="{ page: 1 }">未处理列表</a>
           </li>
           <li>
-            <a class=" nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','processed',1]">已处理列表</a>
+            <a class=" nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','processed']" [queryParams]="{ page: 1 }">已处理列表</a>
           </li>
           <li>
-            <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','processing',1]">处理中</a>
+            <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','processing']" [queryParams]="{ page: 1 }">处理中</a>
           </li>
           <li>
-            <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','ignored',1]">已忽略</a>
+            <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','ignored']" [queryParams]="{ page: 1 }">已忽略</a>
           </li>
           <li>
-            <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','followup',1]">需跟进</a>
+            <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','followup']" [queryParams]="{ page: 1 }">需跟进</a>
           </li>
         </ul>
       </div>

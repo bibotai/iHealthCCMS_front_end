@@ -66,6 +66,23 @@
           </ol>
         </div>
       </div>
+
+      <div id='buttons' class="box">
+        <div class="title">手机信息</div>
+        <div class="inner-list">
+          <ol>
+            <li><button *ngIf="objButtonShow?.isSendShow" color='primary' md-mini-fab md-no-ink (click)="openRedmineDialog(value)"
+                class="md-primary" mdTooltip="发送到redmine"><md-icon>send</md-icon></button></li>
+            <li><button *ngIf="objButtonShow?.isIgnoreShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,3)"
+                class="md-primary" mdTooltip="忽略"><md-icon>delete</md-icon></button></li>
+            <li><button *ngIf="objButtonShow?.isFollowShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,4)"
+                class="md-primary" mdTooltip="需跟进"><md-icon>help</md-icon></button></li>
+            <li><button *ngIf="objButtonShow?.isReductionShow" color='primary' md-mini-fab md-no-ink (click)="reductionIgnore(value)"
+                class="md-primary" mdTooltip="还原"><md-icon>restore</md-icon></button></li>
+
+          </ol>
+        </div>
+      </div>
     </div>
   </div>
 </div>

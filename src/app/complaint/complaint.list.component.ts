@@ -176,7 +176,6 @@ export class ComplaintListComponent implements OnInit {
                 ]
             });
         }
-        console.log(JSON.stringify(this.querycondition));
     }
 
     search() : void {
@@ -208,11 +207,16 @@ export class ComplaintListComponent implements OnInit {
     }
     refreshRedmine() : void {
         this.spinnerShow = true;
-        // this     .redmineService     .getRedmineState(redmineProjectIds.appstore)
-        // .then(data =>
-        // this.redmineService.getRedmineState(redmineProjectIds.fda).then(data =>
-        // this.redmineService.getRedmineState(redmineProjectIds.googleplay).then(data
-        // => this.spinnerShow = false)));
+        this
+            .redmineService
+            .getRedmineState([redmineProjectIds.fda, redmineProjectIds.iglucoappstore, redmineProjectIds.iglucogoogleplay, redmineProjectIds.myvitalsappstore, redmineProjectIds.myvitalsgoogleplay])
+            .then(data => {
+                this.spinnerShow = false;
+            })
+            // .then(data =>
+            // this.redmineService.getRedmineState(redmineProjectIds.fda).then(data =>
+            // this.redmineService.getRedmineState(redmineProjectIds.googleplay).then(data
+            // => this.spinnerShow = false)));
     }
 
     ngOnInit() : void {
@@ -228,7 +232,9 @@ export class ComplaintListComponent implements OnInit {
                     .getTitleSid(params['action']);
                 this.title = titleSid['title'];
                 this.sid = titleSid['sid'];
-
+                this.getQueryCondition();
+                console.log('querycondition', this.querycondition);
+                this.getComplaints(this.offset, this.limit, this.querycondition);
             });
 
         this
@@ -251,6 +257,7 @@ export class ComplaintListComponent implements OnInit {
                     .group({orgin: orgin, app: appname});
 
                 this.getQueryCondition();
+                console.log('querycondition', this.querycondition);
                 this.getComplaints(this.offset, this.limit, this.querycondition);
             });
 

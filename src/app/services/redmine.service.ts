@@ -284,12 +284,15 @@ export class RedmineService {
 
     }
 
-    getRedmineState(pid : number) : Promise < string > {
+    getRedmineState(pids : Array < number >) : Promise < string > {
         return new Promise < string > ((resolve, reject) => {
-            console.log('refresh redmine state url', `${this.baseApiUrl}redmine/${pid}`);
+            console.log('refresh redmine state');
+            let data = {
+                'pids': pids
+            }
             this
                 .http
-                .get(`${this.baseApiUrl}redmine/${pid}`)
+                .post(`${this.baseApiUrl}redmine/list`, data)
                 .subscribe(data => {
                     resolve('ok');
                     console.log('ok');
