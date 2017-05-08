@@ -9,6 +9,7 @@ import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
 import {Location} from '@angular/common';
 import {redmineProjectIds} from '../config/app.config'
 import {RedmineService} from '../services/redmine.service';
+import {DiaglogService} from '../services/diaglog.service';
 import 'rxjs/add/operator/map';
 //switchMap运算符
 import 'rxjs/add/operator/switchMap';
@@ -18,7 +19,7 @@ import {IgnoreDialog} from './ignore.dialog.component';
 @Component({selector: 'complaintlist', templateUrl: './complaint.list.component.html', encapsulation: ViewEncapsulation.None, styleUrls: ['./complaint.list.component.css']})
 
 export class ComplaintListComponent implements OnInit {
-    constructor(private complaintService : ComplaintService, private complaintListService : ComplaintListService, private redmineService : RedmineService, private route : ActivatedRoute, private router : Router, public dialog : MdDialog, private formbuilder : FormBuilder, private location : Location) {
+    constructor(private complaintService : ComplaintService, private complaintListService : ComplaintListService, public diaglogService : DiaglogService, private redmineService : RedmineService, private route : ActivatedRoute, private router : Router, public dialog : MdDialog, private formbuilder : FormBuilder, private location : Location) {
 
         this.searchForm = this
             .formbuilder
@@ -94,33 +95,29 @@ export class ComplaintListComponent implements OnInit {
     }
 
     openRedmineDialog(raw) : void {
-        let dialogRef = this
-            .dialog
-            .open(SendRedmineDialog);
-        dialogRef.componentInstance.data = raw;
-        dialogRef
-            .afterClosed()
-            .subscribe((data) => {
-                if (data) {
-                    if (data == 'ok') 
-                        this.ngOnInit();
-                    }
-                });
-
-    }
+        this
+            .diaglogService
+            .openRedmineDialog(this.dialog, raw, function () {
+                location.reload();
+            });
+    };
     openIgnoreDialog(raw, type) : void {
-        let dialogRef = this
-            .dialog
-            .open(IgnoreDialog);
-        dialogRef.componentInstance.data = Object.assign(raw, {ignoretype: type});
-        dialogRef
-            .afterClosed()
-            .subscribe(data => {
-                if (data) {
-                    if (data == 'ok') 
-                        this.ngOnInit();
-                    }
-                });
+        this
+            .diaglogService
+            .openIgnoreDialog(this.dialog, raw, type, function () {
+                location.reload();
+            });
+    }
+
+    goodComplaint(raw) : void {
+        this
+            .complaintService
+            .decideGoodComplaint(raw._id, '', 5)
+            .then((data) => {
+                if (data == 'ok') 
+                    this.ngOnInit();
+                }
+            )
     }
 
     reductionIgnore(raw) : void {

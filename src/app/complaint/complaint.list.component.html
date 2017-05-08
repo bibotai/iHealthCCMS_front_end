@@ -96,6 +96,8 @@
             mdTooltip="忽略"><md-icon>delete</md-icon></button>
           <button *ngIf="value.isFollowShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,4)" class="md-primary"
             mdTooltip="需跟进"><md-icon>help</md-icon></button>
+          <button *ngIf="value.isGoodShow" color='primary' md-mini-fab md-no-ink (click)="goodComplaint(value)" class="md-primary"
+            mdTooltip="好评"><md-icon>thumb_up</md-icon></button>
           <button *ngIf="value.isReductionShow" color='primary' md-mini-fab md-no-ink (click)="reductionIgnore(value)" class="md-primary"
             mdTooltip="还原"><md-icon>restore</md-icon></button>
         </template>

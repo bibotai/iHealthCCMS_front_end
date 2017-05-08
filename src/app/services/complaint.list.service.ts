@@ -40,7 +40,8 @@ export class ComplaintListService {
                 objButtonShow = {
                     isSendShow: true,
                     isIgnoreShow: true,
-                    isFollowShow: true
+                    isFollowShow: true,
+                    isGoodShow: true
                 }
                 // complaintDisplay.raw = Object.assign(complaint, objButtonShow);
                 break;
@@ -76,6 +77,13 @@ export class ComplaintListService {
                     isIgnoreShow: false,
                     isReductionShow: true
                 }
+            case 5:
+                state = '好评';
+                objButtonShow = {
+                    isSendShow: false,
+                    isIgnoreShow: false,
+                    isReductionShow: true
+                }
 
         }
         return objButtonShow;
@@ -105,6 +113,9 @@ export class ComplaintListService {
         } else if (action == 'followup') {
             titleSid.title = '需跟进列表';
             titleSid.sid = '4';
+        } else if (action == 'good') {
+            titleSid.title = '好评列表';
+            titleSid.sid = '5';
         }
 
         return titleSid;

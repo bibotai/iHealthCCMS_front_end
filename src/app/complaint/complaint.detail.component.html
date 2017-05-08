@@ -68,17 +68,19 @@
       </div>
 
       <div id='buttons' class="box">
-        <div class="title">手机信息</div>
-        <div class="inner-list">
+
+        <div class="button-list">
           <ol>
-            <li><button *ngIf="objButtonShow?.isSendShow" color='primary' md-mini-fab md-no-ink (click)="openRedmineDialog(value)"
-                class="md-primary" mdTooltip="发送到redmine"><md-icon>send</md-icon></button></li>
-            <li><button *ngIf="objButtonShow?.isIgnoreShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,3)"
-                class="md-primary" mdTooltip="忽略"><md-icon>delete</md-icon></button></li>
-            <li><button *ngIf="objButtonShow?.isFollowShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,4)"
-                class="md-primary" mdTooltip="需跟进"><md-icon>help</md-icon></button></li>
-            <li><button *ngIf="objButtonShow?.isReductionShow" color='primary' md-mini-fab md-no-ink (click)="reductionIgnore(value)"
-                class="md-primary" mdTooltip="还原"><md-icon>restore</md-icon></button></li>
+            <li><button *ngIf="objButtonShow?.isSendShow" color='primary' md-raised-button (click)="openRedmineDialog(complaint)"
+                class="md-primary">发送redmine</button></li>
+            <li><button *ngIf="objButtonShow?.isIgnoreShow" color='primary' md-raised-button md-no-ink (click)="openIgnoreDialog(complaint,3)"
+                class="md-primary">忽略</button></li>
+            <li><button *ngIf="objButtonShow?.isFollowShow" color='primary' md-raised-button md-no-ink (click)="openIgnoreDialog(complaint,4)"
+                class="md-primary">需跟进</button></li>
+            <li><button *ngIf="objButtonShow?.isGoodShow" color='primary' md-raised-button md-no-ink (click)="goodComplaint(complaint)"
+                class="md-primary">好评</button></li>
+            <li><button *ngIf="objButtonShow?.isReductionShow" color='primary' md-raised-button md-no-ink (click)="reductionIgnore(complaint)"
+                class="md-primary">还原</button></li>
 
           </ol>
         </div>

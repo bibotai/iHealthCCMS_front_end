@@ -7,12 +7,13 @@ import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Params} from '@angular/router';
 import {redmineProjectIds} from '../config/app.config';
 import {ComplaintListService} from '../services/complaint.list.service';
+import {DiaglogService} from '../services/diaglog.service';
 import 'rxjs/add/operator/toPromise';
 
 @Component({selector: 'complaintdetail', templateUrl: './complaint.detail.component.html', styleUrls: ['./complaint.detail.component.css']})
 
 export class ComplaintDetail implements OnInit {
-    constructor(private complaintService : ComplaintService, private redmineService : RedmineService, private route : ActivatedRoute, private complaintListService : ComplaintListService) {}
+    constructor(private complaintService : ComplaintService, public diaglogService : DiaglogService, public dialog : MdDialog, private redmineService : RedmineService, private route : ActivatedRoute, private complaintListService : ComplaintListService) {}
     complaint : Complaint;
     objButtonShow : {};
 
@@ -39,4 +40,44 @@ export class ComplaintDetail implements OnInit {
             })
 
     }
+    openRedmineDialog(raw) : void {
+        this
+            .diaglogService
+            .openRedmineDialog(this.dialog, raw, function () {
+                location.reload();
+            });
+    }
+    openIgnoreDialog(raw, type) : void {
+        this
+            .diaglogService
+            .openIgnoreDialog(this.dialog, raw, type, function () {
+                location.reload();
+            });
+    }
+
+    goodComplaint(raw) : void {
+        this
+            .complaintService
+            .decideGoodComplaint(raw._id, '', 5)
+            .then((data) => {
+                if (data == 'ok') 
+                    this.ngOnInit();
+                }
+            )
+    }
+
+    reductionIgnore(raw) : void {
+
+        this
+            .redmineService
+            .reduction(raw._id)
+            .then((data) => {
+                if (data) {
+                    if (data == 'ok') 
+                        this.ngOnInit();
+                    }
+                });
+
+    }
+
 }
