@@ -6,7 +6,7 @@
           {{issueTag.viewValue}}
         </md-option>
       </md-select>
-      <md-select class="input-half-width" placeholder="项目" formControlName="projectId">
+      <md-select [(ngModel)]="projectid" (change)='getRedmineMember(projectid)' class="input-half-width" placeholder="项目" formControlName="projectId">
         <md-option *ngFor="let redmineProjectId of redmineProjectIds" [value]="redmineProjectId.value">
           {{redmineProjectId.viewValue}}
         </md-option>
@@ -39,17 +39,23 @@
       </md-input-container>
     </div>
     <div class="input-full-width">
-      <md-input-container class="input-half-width">
-        <input formControlName="version" mdInput placeholder="版本">
-      </md-input-container>
-    </div>
-    <div class="input-full-width">
-      <md-select class="input-full-width" placeholder="客诉处理部门" formControlName="layer">
+      <md-select class="input-half-width" placeholder="客诉处理部门" formControlName="layer">
         <md-option *ngFor="let layer of layers" [value]="layer.value">
           {{layer.viewValue}}
         </md-option>
       </md-select>
+      <md-select class="input-half-width" placeholder="指派给" formControlName="member">
+        <md-option *ngFor="let member of members" [value]="member.user.id">
+          {{member.user.name}}
+        </md-option>
+      </md-select>
     </div>
+    <div class="input-full-width">
+      <md-input-container class="input-half-width">
+        <input formControlName="version" mdInput placeholder="版本">
+      </md-input-container>
+    </div>
+
   </form>
   <div class="input-full-width">
     <div class="dialog-send-button">

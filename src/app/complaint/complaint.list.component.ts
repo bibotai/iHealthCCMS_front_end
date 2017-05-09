@@ -45,9 +45,16 @@ export class ComplaintListComponent implements OnInit {
     page : number = 0;
     querycondition : Object = {};
     spinnerShow : boolean = false;
+    pagecount : number;
 
     getComplaints(offset, limit, query = null) : void {
         this.spinnerShow = true;
+        this
+            .complaintService
+            .getComplaintCount(query)
+            .then(count => {
+                this.pagecount = Math.ceil(Number(count) / limit);
+            });
         this
             .complaintService
             .getComplaints(limit, offset + 1, query)
@@ -68,7 +75,6 @@ export class ComplaintListComponent implements OnInit {
                 this.spinnerShow = false;
 
             });
-
     }
 
     onPageDown() : void {
@@ -78,7 +84,7 @@ export class ComplaintListComponent implements OnInit {
             this.offset++;
             this.page++;
             this.getQueryCondition();
-            this.getComplaints(this.offset, this.limit, this.querycondition);
+            // this.getComplaints(this.offset, this.limit, this.querycondition);
             this.replaceURL();
 
         }
@@ -89,7 +95,7 @@ export class ComplaintListComponent implements OnInit {
             this.offset--;
             this.page--;
             this.getQueryCondition();
-            this.getComplaints(this.offset, this.limit, this.querycondition);
+            // this.getComplaints(this.offset, this.limit, this.querycondition);
             this.replaceURL();
         }
     }

@@ -106,8 +106,9 @@
   </div>
   <div class="list-card-content">
     <div class="list-pagebutton">
-      <button class="list-button-pre" color='primary' (click)='onPageUp()' md-mini-fab><md-icon>arrow_back</md-icon></button>
-      <button color='list-button-next' color='primary' (click)='onPageDown()' md-mini-fab><md-icon>arrow_forward</md-icon></button>
+      <div> <button class="list-button-pre" color='primary' (click)='onPageUp()' md-mini-fab><md-icon>arrow_back</md-icon></button></div>
+      <div style="padding:10px 10px;"> {{offset+1}}/{{pagecount}}</div>
+      <div><button color='list-button-next' color='primary' (click)='onPageDown()' md-mini-fab><md-icon>arrow_forward</md-icon></button></div>
     </div>
   </div>
 </div>

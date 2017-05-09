@@ -2,7 +2,8 @@ import {Component, OnInit, Optional} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {RedmineService} from '../services/redmine.service';
 import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
-import {redmineProjectIds} from '../config/app.config'
+import {redmineProjectIds} from '../config/app.config';
+import {Member} from '../models/member';
 import 'rxjs/add/operator/toPromise';
 
 @Component({selector: 'sendredminedialog', templateUrl: './sendredmine.dialog.component.html', styleUrls: ['./sendredmine.dialog.component.css']})
@@ -33,6 +34,8 @@ export class SendRedmineDialog implements OnInit {
   data : any;
   sendRedmineForm;
   disableButton : boolean = false;
+  members : Member[];
+  projectid : any;
   ngOnInit() : void {
     this.redmineProjectIds = this
       .redmineService
@@ -53,7 +56,7 @@ export class SendRedmineDialog implements OnInit {
     console.log(this.data);
     //init 来源
     let src = '';
-    let projectid: number;
+
     src = '';
     if (this.data.orgin == "Itunes Connect") {
       src = 'Apple Store';
@@ -62,16 +65,19 @@ export class SendRedmineDialog implements OnInit {
     } else {
       src = 'FDA';
     }
+
     //项目
     if (src == "Apple Store" && this.data.appName == "GlucoSmart") 
-      projectid = 1522;
+      this.projectid = 1522;
     if (src == "Google Play" && this.data.appName == "GlucoSmart") 
-      projectid = 1494;
+      this.projectid = 1494;
     if (src == "Apple Store" && this.data.appName == "MyVitals") 
-      projectid = 1545;
+      this.projectid = 1545;
     if (src == "Google Play" && this.data.appName == "MyVitals") 
-      projectid = 1546;
+      this.projectid = 1546;
     
+    //成员
+    this.getRedmineMember(this.projectid);
     //描述
     let description = '';
     if (this.data.content.rewContent) {
@@ -112,11 +118,23 @@ export class SendRedmineDialog implements OnInit {
         orgin: src,
         orginId: this.data.orginId,
         id: this.data._id,
-        projectId: projectid,
-        assignedTo: this.data.appName == 'MyVitals'
+        projectId: this.projectid,
+        //指派给
+        member: this.data.appName == 'MyVitals'
           ? 110
           : 140
       })
+  }
+
+  getRedmineMember(pid) : void {
+    console.log(pid);
+    this
+      .redmineService
+      .getRedmineMemberByPid(pid)
+      .then(members => {
+        this.members = members
+      });
+
   }
 
   sendRedmine() : void {

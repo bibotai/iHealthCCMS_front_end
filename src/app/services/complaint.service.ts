@@ -13,6 +13,25 @@ export class ComplaintService {
     private complaintsUrl = baseApiUrl; // URL to web api
 
     constructor(private http : Http, private redmineService : RedmineService) {}
+    getComplaintCount(query = null) : Promise < string > {
+        return new Promise < string > ((resolve, reject) => {
+            let baseurl : string = this.complaintsUrl;
+            let body = {
+                rule: query
+            }
+            this
+                .http
+                .post(`${baseurl}getCount`, body)
+                .toPromise()
+                .then(response => {
+                    let count = response
+                        .json()
+                        .count;
+                    resolve(count);
+                })
+                .catch(this.handleError);
+        });
+    }
     getComplaints(pagesize : number, pagestart : number, query = null) : Promise < Complaint[] > {
         let baseurl: string = this.complaintsUrl;
         baseurl = `${this.complaintsUrl}find`;

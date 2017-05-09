@@ -2,8 +2,9 @@ import {Injectable} from '@angular/core';
 import {redmineEnums} from '../models/enums/redmine'
 import {Headers, Http} from '@angular/http';
 import {Redmine} from '../models/redmine';
+import {Member} from '../models/member';
 import 'rxjs/add/operator/toPromise';
-import {baseApiUrl} from '../config/app.config'
+import {baseApiUrl} from '../config/app.config';
 class SelectObject {
     value : string;
     viewValue : string;
@@ -109,7 +110,7 @@ export class RedmineService {
                 "priority_id": 2,
                 "status_id": 1,
                 "author_id": 183,
-                "assigned_to_id": objFrom.assignedTo,
+                "assigned_to_id": objFrom.member,
                 "description": objFrom.description,
                 "tracker_id": objFrom.issueTags,
                 "custom_fields": [
@@ -298,9 +299,27 @@ export class RedmineService {
                     console.log('ok');
                 }, error => {
                     reject(JSON.stringify(error.json()));
-                })
+                });
 
-        })
+        });
+    }
+
+    getRedmineMemberByPid(pid : number) : Promise < Member[] > {
+        return new Promise < Member[] > ((resolve, reject) => {
+            this
+                .http
+                .get(`${this.baseApiUrl}redmine/member?pid=${pid}`)
+                .toPromise()
+                .then(data => {
+                    let memberships = data
+                        .json()
+                        .data
+                        .memberships as Member[];
+                    resolve(memberships);
+                }, error => {
+                    reject(JSON.stringify(error.json()));
+                });
+        });
     }
 
     // sendToRedmine()

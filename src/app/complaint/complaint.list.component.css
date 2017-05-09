@@ -2,7 +2,7 @@
       height: 96px;
       background-color: #3f51b5;
     }
-    
+
     .alllist-header h1 {
       font-size: 30px;
       font-weight: 300;
@@ -11,90 +11,90 @@
       padding-left: 30px;
       color: #FFF;
     }
-    
+
     .list-card-content {
-      display: block;
-      height: 36px;
-      width: 100%;
-      padding: 5px;
+      height: 50px;
       background-color: #FFF;
     }
-    
+
     .list-pagebutton {
-      display: block;
+      padding-top: 10px;
+      padding-right: 40px;
       float: right;
-      width: 150px;
-      margin-right: 20px;
+    }
+
+    .list-pagebutton div {
+      float: left;
     }
     /*查询条件*/
-    
+
     .query-container {
       width: 100%;
       margin: 0 auto;
       height: 40px;
     }
-    
+
     .box {
       width: 90%;
       margin: 0 auto;
       margin-bottom: 10px;
     }
-    
+
     .inner-list .condition {
       float: left;
       display: block;
       height: 30px;
       margin-right: 20px;
     }
-    
+
     .title {
       font-size: 18px;
       padding: 7px 3px;
       background-color: #3f51b5;
       color: #ffffff;
     }
-    
+
     .md-select-trigger {
       color: rgba(225, 225, 0, 0.38);
       border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     }
-    
+
     a:link {
       text-decoration: none;
       color: black;
     }
-    
+
     a:active {
       text-decoration: none;
       color: black;
     }
-    
+
     a:hover {
       text-decoration: none;
       color: black;
     }
-    
+
     a:visited {
       text-decoration: none;
       color: black;
     }
-    
+
     a:visited {
       text-decoration: none;
       color: black;
     }
-    
+
     .datatable a:visited {
       text-decoration: none;
       color: darkslateblue;
     }
     /*解决select input不在一条水平线的问题*/
-    
+
     md-input-container .mat-input-wrapper {
       min-height: 0;
       margin-top: 7px;
     }
-    
+
     md-spinner {
       float: left;
       width: 24px;
