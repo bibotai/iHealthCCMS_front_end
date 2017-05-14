@@ -16,6 +16,7 @@ export class ComplaintDetail implements OnInit {
     constructor(private complaintService : ComplaintService, public diaglogService : DiaglogService, public dialog : MdDialog, private redmineService : RedmineService, private route : ActivatedRoute, private complaintListService : ComplaintListService) {}
     complaint : Complaint;
     objButtonShow : {};
+    belong : string;
 
     ngOnInit() : void {
 
@@ -34,6 +35,15 @@ export class ComplaintDetail implements OnInit {
                         this.objButtonShow = this
                             .complaintListService
                             .decideButtonShow(this.complaint.state);
+                        let belong = '';
+                        if (this.complaint.belong == 0) {
+                            belong = '中国';
+                        } else if (this.complaint.belong == 1) {
+                            belong = '欧洲';
+                        } else if (this.complaint.belong == 2) {
+                            belong = '美国';
+                        }
+                        this.belong = belong;
                         console.log(this.complaint);
                     });
 

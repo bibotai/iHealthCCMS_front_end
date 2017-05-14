@@ -229,6 +229,7 @@ export class ComplaintListComponent implements OnInit {
             .params
             .subscribe(params => {
                 this.action = params['action'];
+                console.log("params subscribe")
 
                 let titleSid = this
                     .complaintListService
@@ -244,6 +245,7 @@ export class ComplaintListComponent implements OnInit {
             .route
             .queryParams
             .subscribe(params => {
+                console.log("queryParams subscribe")
                 this.page = Number(params['page']);
                 this.offset = this.page - 1;
                 let orgin = '';

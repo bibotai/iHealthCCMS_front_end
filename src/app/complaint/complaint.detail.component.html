@@ -13,6 +13,12 @@
       </div>
       <div class="box">
         <div class="title">评论信息</div>
+        <div class="inner-content">
+
+        </div>
+        <div class="inner-list">
+          <p *ngIf="belong">所属区域：{{belong}}</p>
+        </div>
         <div class="inner-list">
           <ol>
             <li>所属地区：{{complaint?.lang}}</li>
