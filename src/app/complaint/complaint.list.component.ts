@@ -13,9 +13,12 @@ import {DiaglogService} from '../services/diaglog.service';
 import 'rxjs/add/operator/map';
 //switchMap运算符
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/combineLatest';
 //弹出层
 import {SendRedmineDialog} from './sendredmine.dialog.component';
 import {IgnoreDialog} from './ignore.dialog.component';
+import {Observable} from 'rxjs/Observable';
+
 @Component({selector: 'complaintlist', templateUrl: './complaint.list.component.html', encapsulation: ViewEncapsulation.None, styleUrls: ['./complaint.list.component.css']})
 
 export class ComplaintListComponent implements OnInit {
@@ -223,50 +226,40 @@ export class ComplaintListComponent implements OnInit {
     }
 
     ngOnInit() : void {
+        let params: any;
+        let queryParams: any;
+        Observable.combineLatest(this.route.params, this.route.queryParams, (p : any, qp : any) => {
+            params = p;
+            queryParams = qp;
+        }).subscribe(bothParams => {
 
-        this
-            .route
-            .params
-            .subscribe(params => {
-                this.action = params['action'];
-                console.log("params subscribe")
+            console.log('Observable.combineLatest(this.route.params, this.route.queryParams) subscribe');
+            this.action = params['action'];
+            let titleSid = this
+                .complaintListService
+                .getTitleSid(this.action);
+            this.title = titleSid['title'];
+            this.sid = titleSid['sid'];
+            this.page = Number(queryParams['page']);
+            this.offset = this.page - 1;
+            let orgin = '';
+            let appname = '';
+            //初始化查询form
+            if (queryParams['orgin']) {
+                orgin = queryParams['orgin'];
+            }
+            if (queryParams['appname']) {
+                appname = queryParams['appname'];
+            }
+            this.searchForm = this
+                .formbuilder
+                .group({orgin: orgin, app: appname});
+            this.getQueryCondition();
+            console.log('querycondition', this.querycondition);
+            this.getComplaints(this.offset, this.limit, this.querycondition);
 
-                let titleSid = this
-                    .complaintListService
-                    .getTitleSid(params['action']);
-                this.title = titleSid['title'];
-                this.sid = titleSid['sid'];
-                this.getQueryCondition();
-                console.log('querycondition', this.querycondition);
-                this.getComplaints(this.offset, this.limit, this.querycondition);
-            });
-
-        this
-            .route
-            .queryParams
-            .subscribe(params => {
-                console.log("queryParams subscribe")
-                this.page = Number(params['page']);
-                this.offset = this.page - 1;
-                let orgin = '';
-                let appname = '';
-                //初始化查询form
-                if (params['orgin']) {
-                    orgin = params['orgin'];
-                }
-                if (params['appname']) {
-                    appname = params['appname'];
-                }
-                this.searchForm = this
-                    .formbuilder
-                    .group({orgin: orgin, app: appname});
-
-                this.getQueryCondition();
-                console.log('querycondition', this.querycondition);
-                this.getComplaints(this.offset, this.limit, this.querycondition);
-            });
-
-        //init search form
+        });
+        // init search form
         let objSelectObject: SelectObject = new SelectObject();
 
         let orginsarray: Array < SelectObject >= [];
