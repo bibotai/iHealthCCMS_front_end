@@ -21,6 +21,7 @@
           </ol>
           <div class="inner-content">
             <p *ngIf="complaint?.content.rewTitle">评论主题：{{complaint?.content.rewTitle}}</p>
+            <p *ngIf="complaint?.content.authorName">评论作者：{{complaint?.content.authorName}}</p>
             <p *ngIf="complaint?.content.rewContent">评论内容：{{complaint?.content.rewContent}}</p>
             <p *ngIf="complaint?.content.tranContent">英文翻译：{{complaint?.content.tranContent}}</p>
             <p *ngIf="complaint?.content.tranContentZh">中文翻译：{{complaint?.content.tranContentZh}}</p>
@@ -61,9 +62,9 @@
       <div *ngIf="complaint?.ingnoreRes" class="box">
         <div class="title">忽略原因</div>
         <div class="inner-list">
-          <ol>
-            <li>{{complaint?.ingnoreRes}}</li>
-          </ol>
+
+          <p style="margin-top:18px;">{{complaint?.ingnoreRes}}</p>
+
         </div>
       </div>
 

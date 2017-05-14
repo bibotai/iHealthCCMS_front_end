@@ -68,46 +68,67 @@
           </a>
         </template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="编号" prop="id" [flexGrow]="1">
+      <ngx-datatable-column [width]="50" [resizeable]="false" [canAutoResize]="false" name="编号" prop="id">
         <template let-value="value" ngx-datatable-cell-template>
           {{value}}
         </template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="主题" prop="subject" [flexGrow]="1">
+      <ngx-datatable-column [width]="450" [canAutoResize]="false" name="主题" prop="subject">
         <template let-row="row" ngx-datatable-cell-template>
           <a [routerLink]="['/complaintdetail', row.raw.orgin,row._id]"> {{row.subject}}</a>
         </template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="来源" prop="orgin" [flexGrow]="1">
+      <ngx-datatable-column [width]="130" [resizeable]="false" [canAutoResize]="false" name="评星" prop="star">
         <template let-value="value" ngx-datatable-cell-template>
-          {{value}}
+          <div class="rating">
+            <div class="star{{value}}">
+              <span>☆</span>
+              <span>☆</span>
+              <span>☆</span>
+              <span>☆</span>
+              <span>☆</span>
+            </div>
+          </div>
         </template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="应用" prop="appname" [flexGrow]="1">
+      <ngx-datatable-column name=" " [width]="40" [resizeable]="false" [canAutoResize]="false" prop="orgin" [flexGrow]="1">
+        <template let-value="value" ngx-datatable-cell-template>
+          <md-icon *ngIf="value=='googlePlay'">android</md-icon>
+          <img *ngIf="value=='Itunes Connect'" src="assets/images/apple.png " />
+          <img *ngIf="value=='fda'" src="assets/images/fda.png " width="24px" height="24px" />
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name=" " prop="appname" [width]="50" [resizeable]="false" [canAutoResize]="false">
+        <template let-value="value" ngx-datatable-cell-template>
+          <img *ngIf="value=='MyVitals'" src="assets/images/myvitals.png" width="24px" height="24px" />
+          <img *ngIf="value=='GlucoSmart'" src="assets/images/gluco.png" width="24px" height="24px" />
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="50" [resizeable]="false" [canAutoResize]="false" name="区域" prop="belong">
         <template let-value="value" ngx-datatable-cell-template>
           {{value}}
         </template>
       </ngx-datatable-column>
       <ngx-datatable-column name="操作" prop="raw" [flexGrow]="1">
-        <template let-value="value" ngx-datatable-cell-template>
-          <button *ngIf="value.isSendShow" color='primary' md-mini-fab md-no-ink (click)="openRedmineDialog(value)" class="md-primary"
-            mdTooltip="发送到redmine"><md-icon>send</md-icon></button>
-          <button *ngIf="value.isIgnoreShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,3)" class="md-primary"
-            mdTooltip="忽略"><md-icon>delete</md-icon></button>
-          <button *ngIf="value.isFollowShow" color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,4)" class="md-primary"
-            mdTooltip="需跟进"><md-icon>help</md-icon></button>
-          <button *ngIf="value.isGoodShow" color='primary' md-mini-fab md-no-ink (click)="goodComplaint(value)" class="md-primary"
-            mdTooltip="好评"><md-icon>thumb_up</md-icon></button>
-          <button *ngIf="value.isReductionShow" color='primary' md-mini-fab md-no-ink (click)="reductionIgnore(value)" class="md-primary"
-            mdTooltip="还原"><md-icon>restore</md-icon></button>
+        <template let-value="value " ngx-datatable-cell-template>
+          <button *ngIf="value.isSendShow " color='primary' md-mini-fab md-no-ink (click)="openRedmineDialog(value)
+            " class="md-primary " mdTooltip="发送到redmine "><md-icon>send</md-icon></button>
+          <button *ngIf="value.isIgnoreShow " color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,3)
+            " class="md-primary " mdTooltip="忽略 "><md-icon>delete</md-icon></button>
+          <button *ngIf="value.isFollowShow " color='primary' md-mini-fab md-no-ink (click)="openIgnoreDialog(value,4)
+            " class="md-primary " mdTooltip="需跟进 "><md-icon>help</md-icon></button>
+          <button *ngIf="value.isGoodShow " color='primary' md-mini-fab md-no-ink (click)="goodComplaint(value)
+            " class="md-primary " mdTooltip="好评 "><md-icon>thumb_up</md-icon></button>
+          <button *ngIf="value.isReductionShow " color='primary' md-mini-fab md-no-ink (click)="reductionIgnore(value)
+            " class="md-primary " mdTooltip="还原 "><md-icon>restore</md-icon></button>
         </template>
       </ngx-datatable-column>
     </ngx-datatable>
   </div>
-  <div class="list-card-content">
-    <div class="list-pagebutton">
-      <div> <button class="list-button-pre" color='primary' (click)='onPageUp()' md-mini-fab><md-icon>arrow_back</md-icon></button></div>
-      <div style="padding:10px 10px;"> {{offset+1}}/{{pagecount}}</div>
+  <div class="list-card-content ">
+    <div class="list-pagebutton ">
+      <div> <button class="list-button-pre " color='primary' (click)='onPageUp()' md-mini-fab><md-icon>arrow_back</md-icon></button></div>
+      <div style="padding:10px 10px; "> {{offset+1}}/{{pagecount}}</div>
       <div><button color='list-button-next' color='primary' (click)='onPageDown()' md-mini-fab><md-icon>arrow_forward</md-icon></button></div>
     </div>
   </div>

@@ -19,7 +19,7 @@
       <textarea mdInput placeholder="描述" formControlName="description"></textarea>
     </md-input-container>
     <div class="input-full-width">
-      <md-select class="input-half-width" placeholder="指派给" formControlName="receiver">
+      <md-select class="input-half-width" placeholder="客诉接收人" formControlName="receiver">
         <md-option *ngFor="let receiver of receivers" [value]="receiver.value">
           {{receiver.viewValue}}
         </md-option>

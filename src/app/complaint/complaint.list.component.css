@@ -101,3 +101,50 @@
       height: 24px;
       margin: 5px 10px 0px 0px;
     }
+
+    .rating {
+      unicode-bidi: bidi-override;
+      direction: rtl;
+    }
+
+    .rating>span {
+      display: inline-block;
+      position: relative;
+      width: 1.1em;
+    }
+    /*评星显示*/
+
+    .star1 span:nth-child(5):before {
+      content: "\2605";
+      color: #3f51b5;
+      position: absolute;
+    }
+
+    .star2 span:nth-child(n+4):before {
+      content: "\2605";
+      color: #3f51b5;
+      position: absolute;
+    }
+
+    .star3 span:nth-child(n+3):before {
+      content: "\2605";
+      color: #3f51b5;
+      position: absolute;
+    }
+
+    .star4 span:nth-child(n+2):before {
+      content: "\2605";
+      color: #3f51b5;
+      position: absolute;
+    }
+
+    .star5 span:nth-child(n+1):before {
+      content: "\2605";
+      color: #3f51b5;
+      position: absolute;
+    }
+    /*.rating>span:hover:before,
+    .rating>span:hover~span:before {
+      content: "\2605";
+      position: absolute;
+    }*/

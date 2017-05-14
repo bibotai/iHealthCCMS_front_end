@@ -9,15 +9,13 @@
   right: 0;
   display: -webkit-box;
   display: -ms-flexbox;
+  display: -webkit-flex;
+  /* Safari */
   display: flex;
   -webkit-box-orient: vertical;
   /* -webkit-box-direction: normal; */
   -ms-flex-direction: column;
   flex-direction: column;
-}
-
-.app-content {
-  padding: 0px;
 }
 
 .app-toolbar {
@@ -26,7 +24,7 @@
   z-index: 10;
 }
 
-.app-content md-card {
+.app-sidenav-container md-card {
   margin: 20px;
 }
 

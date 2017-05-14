@@ -22,9 +22,19 @@ export class ComplaintListService {
             let subject : string = complaint.content['rewTitle'];
             if (!complaint.content['rewTitle']) 
                 subject = complaint.content['rewContent'];
-            complaintDisplay.subject = subject.length > 18
-                ? subject.substr(0, 18) + '...'
-                : subject;
+            complaintDisplay.subject = subject;
+            complaintDisplay.star = complaint.content['star'];
+            complaintDisplay.lang = complaint.lang;
+            let belong = '';
+            if (complaint.belong == 0) {
+                belong = '中国';
+            } else if (complaint.belong == 1) {
+                belong = '欧洲';
+            } else if (complaint.belong == 2) {
+                belong = '美国';
+            }
+
+            complaintDisplay.belong = belong;
 
             complaintsDisplayArr.push(complaintDisplay);
         });

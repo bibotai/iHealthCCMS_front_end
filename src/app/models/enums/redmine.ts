@@ -86,7 +86,8 @@ export const redmineEnums = {
         "app": 1,
         "硬件": 2,
         "云端": 3,
-        "蓝牙": 4
+        "蓝牙": 4,
+        "SDK": 5
     },
     "orgin": {
         "GooglePlay": "googlePlay",
