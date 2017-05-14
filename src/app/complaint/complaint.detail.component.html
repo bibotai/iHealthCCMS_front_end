@@ -23,7 +23,21 @@
           <ol>
             <li>所属地区：{{complaint?.lang}}</li>
             <li>评论日期：{{complaint?.rewDate}}</li>
-            <li>评星：{{complaint?.content.star}}</li>
+            <li>
+
+              <div style=" float:left;">评星：</div>
+              <div class="rating" style=" float:left;">
+                <div class="star{{complaint?.content.star}}">
+                  <span class="s1">☆</span>
+                  <span class="s2">☆</span>
+                  <span class="s3">☆</span>
+                  <span class="s4">☆</span>
+                  <span class="s5">☆</span>
+                </div>
+              </div>
+
+            </li>
+
           </ol>
           <div class="inner-content">
             <p *ngIf="complaint?.content.rewTitle">评论主题：{{complaint?.content.rewTitle}}</p>
