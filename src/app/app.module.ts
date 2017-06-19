@@ -7,6 +7,7 @@ import {MaterialModule} from '@angular/material';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 
 import {appComponent} from './app.component';
+import {HomeComponent} from './home.component'
 import {ComplaintListComponent} from './complaint/complaint.list.component';
 import {SendRedmineDialog} from './complaint/sendredmine.dialog.component';
 import {IgnoreDialog} from './complaint/ignore.dialog.component'
@@ -24,10 +25,18 @@ import 'hammerjs';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
+import {LoginComponent} from './user/login.component';
+import {AuthorizationService} from './services/authorization.service'
 // other imports
 @NgModule({
   declarations: [
-    appComponent, ComplaintListComponent, SendRedmineDialog, IgnoreDialog, ComplaintDetail
+    appComponent,
+    ComplaintListComponent,
+    SendRedmineDialog,
+    IgnoreDialog,
+    ComplaintDetail,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, MaterialModule.forRoot(),
@@ -45,7 +54,8 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
     RedmineService, {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
-    }
+    },
+    AuthorizationService
   ],
   bootstrap: [appComponent]
 })

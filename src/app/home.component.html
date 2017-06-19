@@ -1,0 +1,44 @@
+<div class="app-allcontent">
+    <router-outlet name="login"></router-outlet>
+    <md-toolbar class="app-toolbar" color="primary">
+        <button class="app-icon-button" (click)="sidenav.toggle()">
+      <i class="material-icons app-toolbar-menu">menu</i>
+    </button> iHealth客诉管理系统
+        <span class="app-toolbar-filler"></span>
+        <!--<button md-button>登录</button>-->
+    </md-toolbar>
+    <md-sidenav-container class="app-sidenav-layout">
+        <div class="md-sidenav-backdrop"></div>
+        <md-sidenav class="app-sidenav" #sidenav mode="side" opened="true">
+            <div class="app-sidenav-content">
+                <ul>
+                    <li>
+                        <a class="nav-button" md-button routerLinkActive="active" [routerLink]="['/complaintlist','all']" [queryParams]="{ page: 1 }">全部列表</a>
+                    </li>
+                    <li>
+                        <a class="nav-button" md-button routerLinkActive="active" [routerLink]="['/complaintlist','notprocessed']" [queryParams]="{ page: 1 }">未处理列表</a>
+                    </li>
+                    <li>
+                        <a class=" nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','processed']" [queryParams]="{ page: 1 }">已处理列表</a>
+                    </li>
+                    <li>
+                        <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','processing']" [queryParams]="{ page: 1 }">处理中</a>
+                    </li>
+                    <li>
+                        <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','ignored']" [queryParams]="{ page: 1 }">已忽略</a>
+                    </li>
+                    <li>
+                        <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','followup']" [queryParams]="{ page: 1 }">需跟进</a>
+                    </li>
+                    <li>
+                        <a class="nav-button " md-button routerLinkActive="active" [routerLink]="['/complaintlist','good']" [queryParams]="{ page: 1 }">好评</a>
+                    </li>
+                </ul>
+            </div>
+        </md-sidenav>
+        <div class="app-sidenav-container">
+            <!--添加路由插座-->
+            <router-outlet></router-outlet>
+        </div>
+    </md-sidenav-container>
+</div>

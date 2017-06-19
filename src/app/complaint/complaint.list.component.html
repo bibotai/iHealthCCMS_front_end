@@ -75,7 +75,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column [width]="450" [canAutoResize]="false" name="主题" prop="subject">
         <template let-row="row" ngx-datatable-cell-template>
-          <a [routerLink]="['/complaintdetail', row.raw.orgin,row._id]"> {{row.subject}}</a>
+          <a [routerLink]="['/complaintlist/complaintdetail', row.raw.orgin,row._id]"> {{row.subject}}</a>
         </template>
       </ngx-datatable-column>
       <ngx-datatable-column [width]="130" [resizeable]="false" [canAutoResize]="false" name="评星" prop="star">
