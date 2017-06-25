@@ -5,13 +5,14 @@ import {Redmine} from '../models/redmine';
 import {Member} from '../models/member';
 import 'rxjs/add/operator/toPromise';
 import {baseApiUrl} from '../config/app.config';
+import {AuthorizationService} from '../services/authorization.service'
 class SelectObject {
     value : string;
     viewValue : string;
 }
 @Injectable()
 export class RedmineService {
-    constructor(private http : Http) {}
+    constructor(private http : Http, private authorizationService : AuthorizationService) {}
 
     /**
      *
@@ -226,38 +227,55 @@ export class RedmineService {
             headers.append('Content-Type', 'application/json');
             console.log('issue', JSON.stringify(issue));
             this
-                .http
-                .post(this.baseApiUrl + 'redmine/insert', {
-                    'issue': issue,
-                    'id': objFrom.id
-                }, {headers: headers})
-                .subscribe(data => {
-                    resolve('ok');
-                }, error => {
-                    reject(JSON.stringify(error.json()));
+                .authorizationService
+                .checkToken()
+                .then(() => {
+                    this
+                        .http
+                        .post(this.baseApiUrl + 'redmine/insert', {
+                            "userId": localStorage.getItem("userid"),
+                            "token": localStorage.getItem("token"),
+                            'issue': issue,
+                            'id': objFrom.id
+                        }, {headers: headers})
+                        .subscribe(data => {
+                            resolve('ok');
+                        }, error => {
+                            reject(JSON.stringify(error.json()));
+                        });
                 });
+
         });
     }
 
     ignore(_id, reason, type) : Promise < string > {
 
-        const data = {
-            "_id": _id,
-            "ingnoreRes": reason,
-            "state": type
-        };
-        console.log(data);
         return new Promise < string > ((resolve, reject) => {
             let headers = new Headers();
-            headers.append('Content-Type', 'application/json');
             this
-                .http
-                .post(this.baseApiUrl + 'ignore', data, {headers: headers})
-                .subscribe(data => {
-                    resolve('ok');
-                }, error => {
-                    reject(JSON.stringify(error.json()));
-                });
+                .authorizationService
+                .checkToken()
+                .then(() => {
+                    const data = {
+                        "userId": localStorage.getItem("userid"),
+                        "token": localStorage.getItem("token"),
+                        "ignoreInf": {
+                            "_id": _id,
+                            "ingnoreRes": reason,
+                            "state": type
+                        }
+
+                    };
+                    headers.append('Content-Type', 'application/json');
+                    this
+                        .http
+                        .post(this.baseApiUrl + 'ignore', data, {headers: headers})
+                        .subscribe(data => {
+                            resolve('ok');
+                        }, error => {
+                            reject(JSON.stringify(error.json()));
+                        });
+                })
         })
 
     }
@@ -287,38 +305,55 @@ export class RedmineService {
     getRedmineState(pids : Array < number >) : Promise < string > {
         return new Promise < string > ((resolve, reject) => {
             console.log('refresh redmine state');
-            let data = {
-                'pids': pids
-            }
             this
-                .http
-                .post(`${this.baseApiUrl}redmine/list`, data)
-                .subscribe(data => {
-                    resolve('ok');
-                    console.log('ok');
-                }, error => {
-                    reject(JSON.stringify(error.json()));
-                });
+                .authorizationService
+                .checkToken()
+                .then(() => {
+                    let data = {
+                        'pids': pids,
+                        "userId": localStorage.getItem("userid"),
+                        "token": localStorage.getItem("token")
+                    }
+                    this
+                        .http
+                        .post(`${this.baseApiUrl}redmine/list`, data)
+                        .subscribe(data => {
+                            resolve('ok');
+                            console.log('ok');
+                        }, error => {
+                            reject(JSON.stringify(error.json()));
+                        });
 
+                });
         });
+
     }
 
     getRedmineMemberByPid(pid : number) : Promise < Member[] > {
         return new Promise < Member[] > ((resolve, reject) => {
             this
-                .http
-                .get(`${this.baseApiUrl}redmine/member?pid=${pid}`)
-                .toPromise()
-                .then(data => {
-                    let memberships = data
-                        .json()
-                        .data
-                        .memberships as Member[];
-                    resolve(memberships);
-                }, error => {
-                    reject(JSON.stringify(error.json()));
+                .authorizationService
+                .checkToken()
+                .then(() => {
+                    let userId = localStorage.getItem("userid");
+                    let token = localStorage.getItem("token");
+                    this
+                        .http
+                        .get(`${this.baseApiUrl}redmine/member?pid=${pid}&userId=${userId}&token=${token}`)
+                        .toPromise()
+                        .then(data => {
+                            let memberships = data
+                                .json()
+                                .data
+                                .memberships as Member[];
+                            resolve(memberships);
+                        }, error => {
+                            reject(JSON.stringify(error.json()));
+                        });
                 });
-        });
+
+        })
+
     }
 
     // sendToRedmine()

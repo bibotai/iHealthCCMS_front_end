@@ -30,12 +30,30 @@ import {AuthorizationService} from '../services/authorization.service'
                     type="submit" name="action">Login</button>
             </div>
         </div>
+
+        <button (click)="encrypt()" 
+                    class="btn waves-effect waves-light" 
+                    type="button" name="action">encrypt</button>
+                     <button (click)="refresh()" 
+                    class="btn waves-effect waves-light" 
+                    type="button" name="action">refresh</button>
     	`})
 
 export class LoginComponent {
     username : string;
     password : string;
     constructor(private authorizationService : AuthorizationService) {}
+    encrypt() {
+        this
+            .authorizationService
+            .getAccessToken('58ddc7fce9a9b92dd142bd05', 'bb1')
+            .then(data => console.log(data));
+    }
+    refresh() {
+        // this     .authorizationService
+        // .refreshAccessToken('58ddc7fce9a9b92dd142bd05',
+        // '298d19cc638833c54fc2aab0e4f072e3')     .then(data => console.log(data));
+    }
     login() {
         this
             .authorizationService

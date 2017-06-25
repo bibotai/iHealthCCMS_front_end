@@ -61,15 +61,18 @@ export class ComplaintListComponent implements OnInit {
         this
             .complaintService
             .getComplaints(limit, offset + 1, query)
-            .then(complaints => this.complaints = complaints)
+            .then(data => {
+                this.complaints = data.content;
+                //处理错误
+                console.log(data);
+            })
             .then(complaints => {
-                console.log(complaints);
                 this.complaintsDisplay = this
                     .complaintListService
-                    .getComplaintsDisplay(complaints);
+                    .getComplaintsDisplay(this.complaints);
                 this.loadingIndicator = false;
                 // console.log(complaints);
-                if (complaints.length == 0) {
+                if (this.complaints.length == 0) {
                     this.isOverflow = true;
                     console.log('isOverflow!');
                 } else {

@@ -1,6 +1,20 @@
-import {Component, Optional} from '@angular/core';
+import {Component, Optional, OnInit} from '@angular/core';
 import {MdDialog, MdDialogRef, MdSnackBar} from '@angular/material';
 import {RouterModule} from '@angular/router';
-
+import {AuthorizationService} from './services/authorization.service'
 @Component({selector: 'home', templateUrl: './home.component.html', styleUrls: ['./home.component.css']})
-export class HomeComponent {}
+export class HomeComponent implements OnInit {
+    constructor(private authorizationService : AuthorizationService) {}
+    private username : string;
+    ngOnInit() : void {
+        this
+            .authorizationService
+            .checkCredentials();
+        this.username = localStorage.getItem("username");
+    }
+    logout() {
+        this
+            .authorizationService
+            .logout();
+    }
+}

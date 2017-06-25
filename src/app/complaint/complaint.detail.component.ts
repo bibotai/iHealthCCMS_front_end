@@ -31,7 +31,7 @@ export class ComplaintDetail implements OnInit {
                     .complaintService
                     .getComplaint(params['id'])
                     .then(data => {
-                        this.complaint = data;
+                        this.complaint = data.content;
                         this.objButtonShow = this
                             .complaintListService
                             .decideButtonShow(this.complaint.state);

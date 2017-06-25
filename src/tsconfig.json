@@ -6,6 +6,7 @@
     "experimentalDecorators": true,
     "lib": ["es6", "dom"],
     "mapRoot": "./",
+    "allowJs": true,
     "module": "es6",
     "moduleResolution": "node",
     "outDir": "../dist/out-tsc",
@@ -15,7 +16,8 @@
       "../node_modules/@types"
     ],
     "types": [
-      "hammerjs"
+      "hammerjs",
+      "node"
     ]
   }
 }

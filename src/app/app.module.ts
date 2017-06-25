@@ -26,7 +26,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 import {LoginComponent} from './user/login.component';
-import {AuthorizationService} from './services/authorization.service'
+import {AuthorizationService} from './services/authorization.service';
+import {HandleResult} from './util/handleresult';
 // other imports
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {AuthorizationService} from './services/authorization.service'
       provide: LocationStrategy,
       useClass: HashLocationStrategy
     },
-    AuthorizationService
+    AuthorizationService,
+    HandleResult
   ],
   bootstrap: [appComponent]
 })

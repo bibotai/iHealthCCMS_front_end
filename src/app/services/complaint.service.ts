@@ -5,6 +5,9 @@ import {Headers, Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {baseApiUrl} from '../config/app.config';
 import {RedmineService} from '../services/redmine.service';
+import {Result} from '../models/result';
+import {AuthorizationService} from '../services/authorization.service'
+import {HandleResult} from '../util/handleresult';
 
 @Injectable()
 export class ComplaintService {
@@ -12,57 +15,93 @@ export class ComplaintService {
     public complaint : Complaint;
     private complaintsUrl = baseApiUrl; // URL to web api
 
-    constructor(private http : Http, private redmineService : RedmineService) {}
+    constructor(private http : Http, private redmineService : RedmineService, private authorizationService : AuthorizationService, private handleResult : HandleResult) {}
     getComplaintCount(query = null) : Promise < string > {
         return new Promise < string > ((resolve, reject) => {
             let baseurl : string = this.complaintsUrl;
-            let body = {
-                rule: query
-            }
             this
-                .http
-                .post(`${baseurl}getCount`, body)
-                .toPromise()
-                .then(response => {
-                    let count = response
-                        .json()
-                        .count;
-                    resolve(count);
-                })
-                .catch(this.handleError);
-        });
+                .authorizationService
+                .checkToken()
+                .then(() => {
+
+                    let body = {
+                        "userId": localStorage.getItem("userid"),
+                        "token": localStorage.getItem("token"),
+                        "rule": query
+                    }
+                    this
+                        .http
+                        .post(`${baseurl}getCount`, body)
+                        .toPromise()
+                        .then(response => {
+                            let count = response
+                                .json()
+                                .count;
+                            resolve(count);
+                        })
+                        .catch(this.handleError);
+                });
+        })
+
     }
-    getComplaints(pagesize : number, pagestart : number, query = null) : Promise < Complaint[] > {
+    getComplaints(pagesize : number, pagestart : number, query = null) : Promise < Result > {
         let baseurl: string = this.complaintsUrl;
         baseurl = `${this.complaintsUrl}find`;
-        return new Promise < Complaint[] > ((resolve, reject) => {
-            let body = {
-                rule: query,
-                pagestart: pagestart,
-                pagesize: pagesize
-            };
+        console.log(query);
+        return new Promise < Result > ((resolve, reject) => {
             this
-                .http
-                .post(baseurl, body)
-                .toPromise()
-                .then(response => {
-                    this.complaintList = response.json()as Complaint[];
-                    resolve(this.complaintList);
-                    // console.log(response); console.log(this.complaintList);
+                .authorizationService
+                .checkToken()
+                .then(() => {
+                    let body = {
+                        userId: localStorage.getItem("userid"),
+                        rule: query,
+                        pagestart: pagestart,
+                        token: localStorage.getItem("token"),
+                        pagesize: pagesize
+                    };
+                    this
+                        .http
+                        .post(baseurl, body)
+                        .toPromise()
+                        .then(data => {
+                            let objResult = this.handleResult.handleResult < Complaint[] > (data);
+                            resolve(objResult);
+                            console.log(data);
+                            // console.log(response); console.log(this.complaintList);
+                        }, error => console.log(error))
+                        .catch(this.handleError);
                 })
-                .catch(this.handleError);
+
         })
 
     }
 
-    getComplaint(id : string) : Promise < Complaint > {
+    getComplaint(id : string) : Promise < Result > {
         let baseurl: string = this.complaintsUrl;
-        return this
-            .http
-            .get(`${baseurl}rewContent/${id}`)
-            .toPromise()
-            .then(response => this.complaint = response.json()as Complaint)
-            .catch(this.handleError);
+        let userId = localStorage.getItem("userid");
+        return new Promise < Result > ((resovle, reject) => {
+            this
+                .authorizationService
+                .checkToken()
+                .then(() => {
+                    let token = localStorage.getItem("token");
+                    this
+                        .http
+                        .get(`${baseurl}rewContent/${id}?userId=${userId}&token=${token}`)
+                        .toPromise()
+                        .then(data => {
+                            let objResult = this.handleResult.handleResult < Complaint > (data);
+
+                            resovle(objResult);
+                        }, error => {
+                            console.log(error);
+                        })
+                        .catch(this.handleError);
+
+                });
+        })
+
     }
 
     decideGoodComplaint(_id : string, reason : string, ignoretype : number) : Promise < string > {
