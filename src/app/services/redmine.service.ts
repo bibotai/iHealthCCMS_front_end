@@ -281,24 +281,35 @@ export class RedmineService {
     }
 
     reduction(_id) : Promise < string > {
-
-        const data = {
-            "_id": _id,
-            "state": 0
-        };
-        console.log(data);
         return new Promise < string > ((resolve, reject) => {
-            let headers = new Headers();
-            headers.append('Content-Type', 'application/json');
             this
-                .http
-                .post(this.baseApiUrl + 'ignore', data, {headers: headers})
-                .subscribe(data => {
-                    resolve('ok');
-                }, error => {
-                    reject(JSON.stringify(error.json()));
-                });
-        })
+                .authorizationService
+                .checkToken()
+                .then(() => {
+
+                    const data = {
+                        "userId": localStorage.getItem("userid"),
+                        "token": localStorage.getItem("token"),
+                        "ignoreInf": {
+                            "_id": _id,
+                            "state": 0
+                        }
+                    };
+                    console.log(data);
+
+                    let headers = new Headers();
+                    headers.append('Content-Type', 'application/json');
+                    this
+                        .http
+                        .post(this.baseApiUrl + 'ignore', data, {headers: headers})
+                        .subscribe(data => {
+                            resolve('ok');
+                        }, error => {
+                            reject(JSON.stringify(error.json()));
+                        });
+                })
+
+        });
 
     }
 
