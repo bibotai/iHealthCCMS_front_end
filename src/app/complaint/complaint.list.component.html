@@ -14,14 +14,14 @@
               </small>
             </div>
             <div class="condition">
-              <md-select class="md-select" color="primary" placeholder="来源" formControlName="orgin">
+              <md-select class="md-select" color="primary" (change)="onOrginChange()" placeholder="来源" formControlName="orgin">
                 <md-option *ngFor="let orgin of orgins" [value]="orgin.value">
                   {{orgin.viewValue}}
                 </md-option>
               </md-select>
             </div>
-            <div class="condition">
-              <md-select class="md-select" color="primary" placeholder="应用" formControlName="app">
+            <div class="condition" *ngIf="isAppShow">
+              <md-select class="md-select" color="primary" [(ngModel)]="appSelectedValue" placeholder="应用" formControlName="app">
                 <md-option *ngFor="let app of apps" [value]="app.value">
                   {{app.viewValue}}
                 </md-option>
@@ -94,12 +94,14 @@
       <ngx-datatable-column name=" " [width]="40" [resizeable]="false" [canAutoResize]="false" prop="orgin" [flexGrow]="1">
         <template let-value="value" ngx-datatable-cell-template>
           <md-icon *ngIf="value=='googlePlay'">android</md-icon>
+          <img *ngIf="value=='zendesk'" src="assets/images/zendesk.png" width="24px" height="24px" />
           <img *ngIf="value=='Itunes Connect'" src="assets/images/apple.png " />
           <img *ngIf="value=='fda'" src="assets/images/fda.png " width="24px" height="24px" />
         </template>
       </ngx-datatable-column>
       <ngx-datatable-column name=" " prop="appname" [width]="50" [resizeable]="false" [canAutoResize]="false">
         <template let-value="value" ngx-datatable-cell-template>
+
           <img *ngIf="value=='MyVitals'" src="assets/images/myvitals.png" width="24px" height="24px" />
           <img *ngIf="value=='GlucoSmart'" src="assets/images/gluco.png" width="24px" height="24px" />
         </template>

@@ -1,0 +1,22 @@
+.dialog-content {
+    width: 800px;
+    height: 400px;
+}
+
+.input-full-width {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.input-half-width {
+    width: 50%;
+    float: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dialog-send-button {
+    float: right;
+    margin-top: 10px;
+}

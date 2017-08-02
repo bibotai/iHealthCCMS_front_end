@@ -14,5 +14,6 @@ export class Complaint {
     belong : number;
     lang : string;
     saveDate : string;
+    zendesk : Object;
 
 }

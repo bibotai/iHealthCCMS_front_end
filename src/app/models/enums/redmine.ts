@@ -92,7 +92,8 @@ export const redmineEnums = {
     "orgin": {
         "GooglePlay": "googlePlay",
         "AppStore": "Itunes Connect",
-        "FDA": "fda"
+        "FDA": "fda",
+        "Zendesk": "zendesk"
     },
     "app": {
         "GlucoSmart": "GlucoSmart",

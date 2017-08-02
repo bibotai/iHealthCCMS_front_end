@@ -1,0 +1,52 @@
+<div class="alllist-header">
+    <h1>用户列表</h1>
+</div>
+<div class="list">
+
+    <div class="datatable">
+        <ngx-datatable #myTable class="material expandable" [columnMode]="'force'" [loadingIndicator]="loadingIndicator" [headerHeight]="50"
+            [footerHeight]="0" [rowHeight]="60" [rows]="content">
+            <!-- Column Templates -->
+            <ngx-datatable-column [width]="250" [resizeable]="false" [canAutoResize]="false" name="id" prop="_id">
+                <template let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [width]="200" [resizeable]="false" [canAutoResize]="false" name="用户名" prop="username">
+                <template let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column [width]="50" [resizeable]="false" [canAutoResize]="false" name="权限" prop="role">
+                <template let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [width]="250" [resizeable]="false" [canAutoResize]="false" name="存储时间" prop="saveDate">
+                <template let-value="value" ngx-datatable-cell-template>
+                    {{value}}
+                </template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="操作" prop="_id" [flexGrow]="1">
+                <template let-value="value " ngx-datatable-cell-template>
+                    <button color='primary' md-mini-fab md-no-ink (click)="openModifyUserDialog(value)
+            " class="md-primary " mdTooltip="修改 "><md-icon>edit</md-icon></button>
+                    <button color='primary' md-mini-fab md-no-ink (click)="openDeleteDialog(value)
+            " class="md-primary " mdTooltip="删除 "><md-icon>delete</md-icon></button>
+                </template>
+            </ngx-datatable-column>
+
+        </ngx-datatable>
+    </div>
+    <div class="list-card-content ">
+        <div class="button-list">
+            <ol>
+                <li><button color='primary' md-raised-button (click)="openAddUserDialog()" class="md-primary">添加用户</button></li>
+
+
+            </ol>
+        </div>
+    </div>
+</div>

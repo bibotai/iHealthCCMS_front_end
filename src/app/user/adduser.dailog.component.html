@@ -1,0 +1,16 @@
+<div class="dialog-content" style="width: 600px;height: 120px;top:0px;">
+    <form (submit)="!disableButton && submit()">
+        <md-input-container class="input-full-width" style="width: 100%">
+            <input #res mdInput placeholder="用户名" name="username" [(ngModel)]="username">
+        </md-input-container>
+        <md-input-container class="input-full-width" style="width: 100%">
+            <input #res mdInput placeholder="密码" name="password" type="password" [(ngModel)]="password">
+        </md-input-container>
+        <div class="input-full-width" style="width: 100%">
+            <div class="dialog-send-button" style="float: right;">
+                <button md-raised-button md-no-ink (click)="addUser()" [disabled]="disableButton" type="submit" color='primary' class="md-primary">添加</button>
+
+            </div>
+        </div>
+    </form>
+</div>

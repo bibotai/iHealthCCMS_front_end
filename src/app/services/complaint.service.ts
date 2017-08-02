@@ -8,6 +8,15 @@ import {RedmineService} from '../services/redmine.service';
 import {Result} from '../models/result';
 import {AuthorizationService} from '../services/authorization.service'
 import {HandleResult} from '../util/handleresult';
+import {
+    Zendesk,
+    Via,
+    Change,
+    Create,
+    Notification,
+    Comment,
+    Metadata
+} from '../models/zendesk';
 
 @Injectable()
 export class ComplaintService {
@@ -101,6 +110,69 @@ export class ComplaintService {
 
                 });
         })
+
+    }
+    n
+    handleZendeskComplaint(complaint : Complaint) : Array < Zendesk > {
+        let zendesks = Array < any > ();
+        zendesks.push(complaint['zendesk']);
+        console.log(JSON.stringify(zendesks));
+        let composedZendesks = Array < Zendesk > ();
+        console.log(zendesks[0]);;
+        zendesks[0].forEach(item => {
+            let zendeskdetail = new Zendesk(); //
+            console.log(item);
+            this.handleResult.composeObject < Zendesk > (item, zendeskdetail);
+            this.handleZendeskDetail(item, zendeskdetail);
+            composedZendesks.push(zendeskdetail);
+        });
+
+        console.log('!!!!!!!!!result!!!!!!!!!', composedZendesks);
+        return composedZendesks;
+
+    }
+
+    handleZendeskDetail(zendesk, zendeskdetail : Zendesk) {
+        let events = zendesk['events'];
+        let metadata = new Metadata();
+
+        events.forEach((item, index) => {
+            if (item.type == 'Change') {
+                let change = new Change();
+                this.handleResult.composeObject < Change > (item, change);
+                console.log('change+++++++++++', change)
+                if (zendeskdetail.changes) {
+                    zendeskdetail
+                        .changes
+                        .push(change);
+                } else {
+                    zendeskdetail.changes = [change];
+                }
+            } else if (item.type == 'Comment') {
+                let comment = new Comment();
+                this.handleResult.composeObject < Comment > (item, comment);
+                zendeskdetail.comment = comment;
+            } else if (item.type == 'Create') {
+                let create = new Create();
+                this.handleResult.composeObject < Create > (item, create);
+                if (zendeskdetail.creates) {
+                    zendeskdetail
+                        .creates
+                        .push(create);
+                } else {
+                    zendeskdetail.creates = [create];
+                }
+            } else if (item.type == 'Notification') {
+                let notification = new Notification();
+                this.handleResult.composeObject < Notification > (item, notification);
+                zendeskdetail.notification = notification;
+            }
+
+        });
+
+        console.log('***********************************************');
+        // console.log(metadata, comments, tags, status, notifications, via, events,
+        // creatTime);
 
     }
 

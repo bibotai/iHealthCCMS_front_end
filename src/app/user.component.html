@@ -1,0 +1,26 @@
+<div class="app-allcontent">
+    <router-outlet name="login"></router-outlet>
+    <md-toolbar class="app-toolbar" color="primary">
+        <button class="app-icon-button" (click)="sidenav.toggle()">
+      <i class="material-icons app-toolbar-menu">menu</i>
+    </button> iHealth客诉管理系统
+        <span class="app-toolbar-filler"></span>
+        <span>欢迎 {{username}}</span><button (click)="logout()" md-button>登出</button>
+    </md-toolbar>
+    <md-sidenav-container class="app-sidenav-layout">
+        <div class="md-sidenav-backdrop"></div>
+        <md-sidenav class="app-sidenav" #sidenav mode="side" opened="true">
+            <div class="app-sidenav-content">
+                <ul>
+                    <li>
+                        <a class="nav-button" md-button routerLinkActive="active" [routerLink]="['/complaintlist','all']" [queryParams]="{ page: 1 }">用户列表</a>
+                    </li>
+                </ul>
+            </div>
+        </md-sidenav>
+        <div class="app-sidenav-container">
+            <!--添加路由插座-->
+            <router-outlet></router-outlet>
+        </div>
+    </md-sidenav-container>
+</div>

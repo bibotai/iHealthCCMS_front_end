@@ -5,8 +5,15 @@ import {ComplaintListComponent} from './complaint/complaint.list.component';
 import {ComplaintDetail} from './complaint/complaint.detail.component';
 import {LoginComponent} from './user/login.component';
 import {HomeComponent} from './home.component';
+import {UserListComponent} from './user/user.list.component';
+import {UserComponent} from './user.component';
 const routes : Routes = [
     {
+
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    }, {
         path: 'login',
         component: LoginComponent
     }, {
@@ -28,6 +35,19 @@ const routes : Routes = [
             }, {
                 path: 'complaintdetail/:type/:id',
                 component: ComplaintDetail
+            }
+        ]
+    }, {
+        path: 'user',
+        component: UserComponent,
+        children: [
+            {
+                path: '',
+                redirectTo: 'userlist?page=1',
+                pathMatch: 'full'
+            }, {
+                path: 'userlist',
+                component: UserListComponent
             }
         ]
     }

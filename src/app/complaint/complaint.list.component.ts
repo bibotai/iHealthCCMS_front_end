@@ -49,6 +49,8 @@ export class ComplaintListComponent implements OnInit {
     querycondition : Object = {};
     spinnerShow : boolean = false;
     pagecount : number;
+    isAppShow : boolean = true;
+    appSelectedValue : string;
 
     getComplaints(offset, limit, query = null) : void {
         this.spinnerShow = true;
@@ -90,6 +92,7 @@ export class ComplaintListComponent implements OnInit {
             this.offset++;
             this.page++;
             this.getQueryCondition();
+
             // this.getComplaints(this.offset, this.limit, this.querycondition);
             this.replaceURL();
 
@@ -104,6 +107,20 @@ export class ComplaintListComponent implements OnInit {
             // this.getComplaints(this.offset, this.limit, this.querycondition);
             this.replaceURL();
         }
+    }
+
+    onOrginChange() : void {
+        if(this.searchForm.value.orgin == 'zendesk') {
+            this.isAppShow = false;
+            this.appSelectedValue = '';
+            this.searchForm.value.app = '';
+            // this.getQueryCondition();
+            console.log(this.searchForm.value.app);
+            // this.replaceURL(true);
+        } else {
+            this.isAppShow = true;
+        }
+
     }
 
     openRedmineDialog(raw) : void {

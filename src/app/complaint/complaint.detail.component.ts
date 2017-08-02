@@ -8,15 +8,31 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {redmineProjectIds} from '../config/app.config';
 import {ComplaintListService} from '../services/complaint.list.service';
 import {DiaglogService} from '../services/diaglog.service';
+import {
+    Zendesk,
+    Via,
+    Change,
+    Create,
+    Notification,
+    Comment,
+    Metadata
+} from '../models/zendesk';
+import * as moment from 'moment';
 import 'rxjs/add/operator/toPromise';
 
-@Component({selector: 'complaintdetail', templateUrl: './complaint.detail.component.html', styleUrls: ['./complaint.detail.component.css']})
+@Component({
+    selector: 'complaintdetail',
+    templateUrl: './complaint.detail.component.html',
+    styleUrls: ['./complaint.detail.component.css', './timeline.css']
+})
 
 export class ComplaintDetail implements OnInit {
     constructor(private complaintService : ComplaintService, public diaglogService : DiaglogService, public dialog : MdDialog, private redmineService : RedmineService, private route : ActivatedRoute, private complaintListService : ComplaintListService) {}
     complaint : Complaint;
     objButtonShow : {};
     belong : string;
+    isZendesk : boolean = false;
+    zendesks : Array < Zendesk >;
 
     ngOnInit() : void {
 
@@ -45,11 +61,35 @@ export class ComplaintDetail implements OnInit {
                         }
                         this.belong = belong;
                         console.log(this.complaint);
+                        if (this.complaint.orgin == 'zendesk') {
+                            this.isZendesk = true;
+                            let zendesks : Array < Zendesk >;
+                            zendesks = this
+                                .complaintService
+                                .handleZendeskComplaint(this.complaint);
+                            this.zendesks = zendesks;
+                        }
                     });
 
             })
 
     }
+    formatTime(date) : string {
+
+        return moment(date).format('YYYY-MM-DD hh:mm');
+    }
+
+    formatObject(object) : string {
+        let resultStr: string = '';
+        Object
+            .keys(object)
+            .map((key, index) => {
+                resultStr += `${key}:${object[key]} `
+
+            });
+        return resultStr;
+    }
+
     openRedmineDialog(raw) : void {
         this
             .diaglogService

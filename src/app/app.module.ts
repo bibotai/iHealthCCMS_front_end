@@ -15,6 +15,7 @@ import {ComplaintDetail} from './complaint/complaint.detail.component'
 import {ComplaintService} from './services/complaint.service';
 import {ComplaintListService} from './services/complaint.list.service';
 import {RedmineService} from './services/redmine.service';
+
 //DiaglogService
 import {DiaglogService} from './services/diaglog.service';
 //导入路由模块
@@ -28,6 +29,13 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {LoginComponent} from './user/login.component';
 import {AuthorizationService} from './services/authorization.service';
 import {HandleResult} from './util/handleresult';
+
+import {UserComponent} from './user.component';
+import {UserListComponent} from './user/user.list.component';
+import {UserService} from './services/user.service';
+import {AddUserDialog} from './user/adduser.dailog.component';
+import {ModifyUserDialog} from './user/modifyuser.dailog.component';
+import {ConfirmDialog} from './utilcomponent/confirmdialog.component'
 // other imports
 @NgModule({
   declarations: [
@@ -37,7 +45,12 @@ import {HandleResult} from './util/handleresult';
     IgnoreDialog,
     ComplaintDetail,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    UserListComponent,
+    UserComponent,
+    AddUserDialog,
+    ModifyUserDialog,
+    ConfirmDialog
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, AppRoutingModule, MaterialModule.forRoot(),
@@ -46,7 +59,12 @@ import {HandleResult} from './util/handleresult';
     ReactiveFormsModule
   ],
   entryComponents: [
-    SendRedmineDialog, IgnoreDialog
+    SendRedmineDialog,
+    IgnoreDialog,
+    AddUserDialog,
+    ModifyUserDialog,
+    ConfirmDialog,
+    ConfirmDialog
   ],
   providers: [
     ComplaintService,
@@ -57,7 +75,8 @@ import {HandleResult} from './util/handleresult';
       useClass: HashLocationStrategy
     },
     AuthorizationService,
-    HandleResult
+    HandleResult,
+    UserService
   ],
   bootstrap: [appComponent]
 })

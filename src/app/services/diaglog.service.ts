@@ -1,7 +1,10 @@
-//弹出层
+import {Observable} from 'rxjs/Rx';
 import {SendRedmineDialog} from '../complaint/sendredmine.dialog.component';
 import {IgnoreDialog} from '../complaint/ignore.dialog.component';
+import {ConfirmDialog} from '../utilcomponent/confirmdialog.component';
+import {MdDialogRef, MdDialog, MdDialogConfig} from '@angular/material';
 export class DiaglogService {
+    // constructor(private dialog : MdDialog) {};
     openRedmineDialog(dialog, raw, callback) : void {
         let dialogRef = dialog.open(SendRedmineDialog);
         dialogRef.componentInstance.data = raw;
@@ -28,5 +31,16 @@ export class DiaglogService {
                         callback();
                     }
                 });
+    }
+
+    public confirm(dialog, title : string, message : string) : Observable < boolean > {
+
+        let dialogRef: MdDialogRef < ConfirmDialog >;
+
+        dialogRef = dialog.open(ConfirmDialog);
+        dialogRef.componentInstance.title = title;
+        dialogRef.componentInstance.message = message;
+
+        return dialogRef.afterClosed();
     }
 }

@@ -59,4 +59,22 @@ export class HandleResult {
         return objResult;
 
     }
+
+    /**
+     * 将object组合成相应的model
+     *
+     * @template T
+     * @param {any} item
+     * @param {T} object
+     * @memberof HandleResult
+     */
+    composeObject < T > (item, object : T) {
+        Object
+            .keys(item)
+            .map((key, index) => {
+                object[key] = item[key];
+            });
+        console.log(object);
+    }
+
 }

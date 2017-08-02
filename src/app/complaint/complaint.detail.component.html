@@ -1,90 +1,159 @@
 <div class="dialog-content">
   <div clsss="container">
     <div class="content">
-      <div class="box">
-        <div class="title">应用信息</div>
-        <div class="inner-list">
-          <ol>
-            <li>应用名：{{complaint==null?'':complaint.appName}}</li>
-            <li>版本：{{complaint==null?'':complaint.appVersion}}</li>
-            <li>来源：{{complaint==null?'':complaint.orgin}}</li>
-          </ol>
+      <div *ngIf="!isZendesk">
+        <div class="box">
+          <div class="title">应用信息</div>
+          <div class="inner-list">
+            <ol>
+              <li>应用名：{{complaint==null?'':complaint.appName}}</li>
+              <li>版本：{{complaint==null?'':complaint.appVersion}}</li>
+              <li>来源：{{complaint==null?'':complaint.orgin}}</li>
+            </ol>
+          </div>
         </div>
-      </div>
-      <div class="box">
-        <div class="title">评论信息</div>
-        <div class="inner-content">
-
-        </div>
-        <div class="inner-list">
-          <p *ngIf="belong">所属区域：{{belong}}</p>
-        </div>
-        <div class="inner-list">
-          <ol>
-            <li>所属地区：{{complaint?.lang}}</li>
-            <li>评论日期：{{complaint?.rewDate}}</li>
-            <li>
-
-              <div style=" float:left;">评星：</div>
-              <div class="rating" style=" float:left;">
-                <div class="star{{complaint?.content.star}}">
-                  <span class="s1">☆</span>
-                  <span class="s2">☆</span>
-                  <span class="s3">☆</span>
-                  <span class="s4">☆</span>
-                  <span class="s5">☆</span>
-                </div>
-              </div>
-
-            </li>
-
-          </ol>
+        <div class="box">
+          <div class="title">评论信息</div>
           <div class="inner-content">
-            <p *ngIf="complaint?.content.rewTitle">评论主题：{{complaint?.content.rewTitle}}</p>
-            <p *ngIf="complaint?.content.authorName">评论作者：{{complaint?.content.authorName}}</p>
-            <p *ngIf="complaint?.content.rewContent">评论内容：{{complaint?.content.rewContent}}</p>
-            <p *ngIf="complaint?.content.tranContent">英文翻译：{{complaint?.content.tranContent}}</p>
-            <p *ngIf="complaint?.content.tranContentZh">中文翻译：{{complaint?.content.tranContentZh}}</p>
+
+          </div>
+          <div class="inner-list">
+            <p *ngIf="belong">所属区域：{{belong}}</p>
+          </div>
+          <div class="inner-list">
+            <ol>
+              <li>所属地区：{{complaint?.lang}}</li>
+              <li>评论日期：{{complaint?.rewDate}}</li>
+              <li>
+
+                <div style=" float:left;">评星：</div>
+                <div class="rating" style=" float:left;">
+                  <div class="star{{complaint?.content.star}}">
+                    <span class="s1">☆</span>
+                    <span class="s2">☆</span>
+                    <span class="s3">☆</span>
+                    <span class="s4">☆</span>
+                    <span class="s5">☆</span>
+                  </div>
+                </div>
+
+              </li>
+
+            </ol>
+            <div class="inner-content">
+              <p *ngIf="complaint?.content.rewTitle">评论主题：{{complaint?.content.rewTitle}}</p>
+              <p *ngIf="complaint?.content.authorName">评论作者：{{complaint?.content.authorName}}</p>
+              <p *ngIf="complaint?.content.rewContent">评论内容：{{complaint?.content.rewContent}}</p>
+              <p *ngIf="complaint?.content.tranContent">英文翻译：{{complaint?.content.tranContent}}</p>
+              <p *ngIf="complaint?.content.tranContentZh">中文翻译：{{complaint?.content.tranContentZh}}</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="complaint?.deviceInfo" class="box">
+          <div class="title">手机信息</div>
+          <div class="inner-list">
+            <ol>
+              <li>手机型号：{{complaint?.deviceInfo?.device}}</li>
+              <li>手机系统：{{complaint?.deviceInfo?.OS}}</li>
+            </ol>
+          </div>
+        </div>
+        <div *ngIf="" class="box">
+          <div class="title">信息</div>
+          <div class="inner-list">
+            <ol>
+              <li>手机型号：{{complaint?.deviceInfo?.device}}</li>
+              <li>手机系统：{{complaint?.deviceInfo?.OS}}</li>
+            </ol>
+          </div>
+        </div>
+        <div *ngIf="complaint?.redmineMsg" class="box">
+          <div class="title">redmine信息</div>
+          <div class="inner-list">
+            <ol>
+              <li>跟踪标签：{{complaint?.redmineMsg?.tracker.name}}</li>
+              <li>状态：{{complaint?.redmineMsg?.status.name}}</li>
+              <li>开始时间：{{complaint?.redmineMsg?.created_on}}</li>
+              <li>优先级：{{complaint?.redmineMsg?.priority.name}}</li>
+              <li>指派给：{{complaint?.redmineMsg?.assigned_to.name}}</li>
+              <li>%完成：{{complaint?.redmineMsg?.done_ratio}}</li>
+              <li>客诉时间：{{complaint?.redmineMsg?.custom_fields[0].value}}</li>
+              <li>客诉接收时间：{{complaint?.redmineMsg?.custom_fields[1].value}}</li>
+              <li>客诉来源：{{complaint?.redmineMsg?.custom_fields[2].value}}</li>
+              <li>客诉产品型号：{{complaint?.redmineMsg?.custom_fields[3].value}}</li>
+              <li>客诉处理部门：{{complaint?.redmineMsg?.custom_fields[4].value}}</li>
+              <li>APP版本：{{complaint?.redmineMsg?.custom_fields[5].value}}</li>
+              <li>地区：{{complaint?.redmineMsg?.custom_fields[17].value}}</li>
+              <li>版本：{{complaint?.redmineMsg?.custom_fields[19].value}}</li>
+              <li>原始id：{{complaint?.redmineMsg?.custom_fields[23].value}}</li>
+            </ol>
+          </div>
+        </div>
+        <div *ngIf="complaint?.ingnoreRes" class="box">
+          <div class="title">忽略原因</div>
+          <div class="inner-list">
+
+            <p style="margin-top:18px;">{{complaint?.ingnoreRes}}</p>
+
           </div>
         </div>
       </div>
-      <div *ngIf="complaint?.deviceInfo" class="box">
-        <div class="title">手机信息</div>
-        <div class="inner-list">
-          <ol>
-            <li>手机型号：{{complaint?.deviceInfo?.device}}</li>
-            <li>手机系统：{{complaint?.deviceInfo?.OS}}</li>
-          </ol>
-        </div>
-      </div>
-      <div *ngIf="complaint?.redmineMsg" class="box">
-        <div class="title">redmine信息</div>
-        <div class="inner-list">
-          <ol>
-            <li>跟踪标签：{{complaint?.redmineMsg?.tracker.name}}</li>
-            <li>状态：{{complaint?.redmineMsg?.status.name}}</li>
-            <li>开始时间：{{complaint?.redmineMsg?.created_on}}</li>
-            <li>优先级：{{complaint?.redmineMsg?.priority.name}}</li>
-            <li>指派给：{{complaint?.redmineMsg?.assigned_to.name}}</li>
-            <li>%完成：{{complaint?.redmineMsg?.done_ratio}}</li>
-            <li>客诉时间：{{complaint?.redmineMsg?.custom_fields[0].value}}</li>
-            <li>客诉接收时间：{{complaint?.redmineMsg?.custom_fields[1].value}}</li>
-            <li>客诉来源：{{complaint?.redmineMsg?.custom_fields[2].value}}</li>
-            <li>客诉产品型号：{{complaint?.redmineMsg?.custom_fields[3].value}}</li>
-            <li>客诉处理部门：{{complaint?.redmineMsg?.custom_fields[4].value}}</li>
-            <li>APP版本：{{complaint?.redmineMsg?.custom_fields[5].value}}</li>
-            <li>地区：{{complaint?.redmineMsg?.custom_fields[17].value}}</li>
-            <li>版本：{{complaint?.redmineMsg?.custom_fields[19].value}}</li>
-            <li>原始id：{{complaint?.redmineMsg?.custom_fields[23].value}}</li>
-          </ol>
-        </div>
-      </div>
-      <div *ngIf="complaint?.ingnoreRes" class="box">
-        <div class="title">忽略原因</div>
-        <div class="inner-list">
+      <div *ngIf="isZendesk" class="box" id="zendesk">
+        <div class="title">Zendesk 信息</div>
+        <div>
+          <div class="main-container">
+            <section id="timeline" class="timeline-outer">
+              <div class="container" id="content">
+                <div class="row">
+                  <div class="col s12 m12 l12">
 
-          <p style="margin-top:18px;">{{complaint?.ingnoreRes}}</p>
+                    <ul class="timeline">
+                      <li *ngFor="let zendesk of zendesks" class="event" value="{{formatTime(zendesk.created_at)}}">
+                        <h3 *ngIf="zendesk.comment">{{zendesk?.author_id}} created a comment</h3>
+                        <div>
+                          {{zendesk.comment?.body}}
+                        </div>
+                        <div *ngIf="zendesk.creates">
+                          <div class="eventlist">
+                            <div class="eventlisttitle">creates</div>
+                            <div *ngFor="let create of zendesk.creates">
+                              <div class="eventlistitem">{{create.field_name}}:{{create.value}}</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="zendesk.changes">
+                          <div class="eventlist">
+                            <div class="eventlisttitle">changes</div>
+                            <div *ngFor="let change of zendesk.changes">
+                              <div class="eventlistitem">{{change.field_name}}:{{change.previous_value?change.previous_value:"null"}} --> {{change.value}}</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="zendesk.metadata">
+                          <div class="eventlist">
+                            <div class="eventlisttitle">metadata</div>
+                            <div>
+                              <div class="eventlistitem">{{formatObject(zendesk.metadata.system)}}</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="zendesk.via">
+                          <div class="eventlist">
+                            <div class="eventlisttitle">via</div>
+                            <div>
+                              <div class="eventlistitem">via:{{zendesk.via.channel}}</div>
+                            </div>
+                          </div>
+                        </div>
 
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
       </div>
 
